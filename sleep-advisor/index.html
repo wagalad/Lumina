@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Sleep Advisor</title>
+    <meta name="description" content="Personalized, scientifically-backed advice to optimize your sleep and wake up refreshed.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Lumina</span>
+            </div>
+            <p class="tagline">Optimize your rest</p>
+        </header>
+
+        <section id="questionnaire-section" class="glass-card active">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <!-- Step 1 -->
+            <div class="step active" id="step-1">
+                <h2>How would you rate your typical sleep quality?</h2>
+                <p class="subtitle">On a scale from 1 (poor) to 10 (excellent)</p>
+                <div class="slider-container">
+                    <input type="range" id="sleepQuality" min="1" max="10" value="5" class="styled-slider">
+                    <div class="slider-value" id="qualityValue">5</div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary next-btn" data-next="2">Next Step</button>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step" id="step-2">
+                <h2>What is your typical schedule?</h2>
+                <div class="input-group">
+                    <label for="bedTime">Average Bedtime</label>
+                    <input type="time" id="bedTime" value="23:00" class="styled-input">
+                </div>
+                <div class="input-group">
+                    <label for="wakeTime">Average Wake Time</label>
+                    <input type="time" id="wakeTime" value="07:00" class="styled-input">
+                </div>
+                <div class="input-group checkbox-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="irregularSchedule">
+                        <span class="checkmark"></span>
+                        My schedule varies wildly from day to day
+                    </label>
+                </div>
+                <div class="actions split">
+                    <button class="btn btn-secondary prev-btn" data-prev="1">Back</button>
+                    <button class="btn btn-primary next-btn" data-next="3">Next Step</button>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step" id="step-3">
+                <h2>Evening Habits</h2>
+                <p class="subtitle">Select all that apply to your typical evening</p>
+                
+                <div class="options-grid">
+                    <div class="option-card" data-value="screens">
+                        <div class="icon">📱</div>
+                        <span>Screens in bed</span>
+                    </div>
+                    <div class="option-card" data-value="caffeineLate">
+                        <div class="icon">☕</div>
+                        <span>Caffeine after 2 PM</span>
+                    </div>
+                    <div class="option-card" data-value="alcohol">
+                        <div class="icon">🍷</div>
+                        <span>Alcohol before bed</span>
+                    </div>
+                    <div class="option-card" data-value="heavyMeal">
+                        <div class="icon">🍔</div>
+                        <span>Heavy meal late</span>
+                    </div>
+                    <div class="option-card" data-value="workoutLate">
+                        <div class="icon">🏋️</div>
+                        <span>Intense workout late</span>
+                    </div>
+                </div>
+
+                <div class="actions split">
+                    <button class="btn btn-secondary prev-btn" data-prev="2">Back</button>
+                    <button class="btn btn-primary next-btn" data-next="4">Next Step</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Health & Lifestyle (Kaggle Dataset) -->
+            <div class="step" id="step-4">
+                <h2>Health & Lifestyle</h2>
+                <p class="subtitle">Based on Kaggle's Sleep Health Dataset metrics</p>
+                <div class="input-group">
+                    <label for="stressLevel">Daily Stress Level (1-10)</label>
+                    <input type="range" id="stressLevel" min="1" max="10" value="5" class="styled-slider">
+                    <div class="slider-value" id="stressValue" style="font-size:1.5rem;">5</div>
+                </div>
+                <div class="input-group">
+                    <label for="physicalActivity">Physical Activity (minutes/day)</label>
+                    <input type="number" id="physicalActivity" value="30" class="styled-input" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="bmiCategory">BMI Category</label>
+                    <select id="bmiCategory" class="styled-input">
+                        <option value="Normal">Normal</option>
+                        <option value="Overweight">Overweight</option>
+                        <option value="Obese">Obese</option>
+                    </select>
+                </div>
+                <div class="actions split">
+                    <button class="btn btn-secondary prev-btn" data-prev="3">Back</button>
+                    <button class="btn btn-primary next-btn" data-next="5">Next Step</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Sleep Continuity (SRS Data) -->
+            <div class="step" id="step-5">
+                <h2>Sleep Continuity</h2>
+                <p class="subtitle">Based on National Sleep Research Resource (NSRR) Actigraphy</p>
+                <div class="input-group">
+                    <label for="sleepLatency">Sleep Onset Latency (minutes to fall asleep)</label>
+                    <input type="number" id="sleepLatency" value="15" class="styled-input" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="waso">Wake After Sleep Onset (minutes awake during the night)</label>
+                    <input type="number" id="waso" value="0" class="styled-input" min="0">
+                </div>
+                <div class="actions split">
+                    <button class="btn btn-secondary prev-btn" data-prev="4">Back</button>
+                    <button class="btn btn-primary" id="analyze-btn">Analyze My Sleep</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading Section -->
+        <section id="loading-section" class="glass-card hidden">
+            <div class="loader">
+                <div class="spinner"></div>
+                <h2>Analyzing your habits...</h2>
+                <p>Consulting our sleep science database</p>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="glass-card hidden results-container">
+            <div class="results-header">
+                <h1>Your Sleep Profile</h1>
+                <div class="score-circle">
+                    <div class="score-value" id="finalScore">--</div>
+                    <span>/100</span>
+                </div>
+            </div>
+
+            <!-- Metrics Summary Grid -->
+            <div class="metrics-grid" id="metricsGrid">
+                <div class="metric-tile">
+                    <span class="metric-label">Sleep Duration</span>
+                    <span class="metric-value" id="metricDuration">--</span>
+                    <span class="metric-unit">hours</span>
+                </div>
+                <div class="metric-tile">
+                    <span class="metric-label">Sleep Efficiency</span>
+                    <span class="metric-value" id="metricEfficiency">--</span>
+                    <span class="metric-unit">%</span>
+                </div>
+                <div class="metric-tile">
+                    <span class="metric-label">Time to Fall Asleep</span>
+                    <span class="metric-value" id="metricSOL">--</span>
+                    <span class="metric-unit">min</span>
+                </div>
+                <div class="metric-tile">
+                    <span class="metric-label">Night Waketime</span>
+                    <span class="metric-value" id="metricWASO">--</span>
+                    <span class="metric-unit">min</span>
+                </div>
+            </div>
+
+            <!-- Personalized Advice -->
+            <h2 class="section-title">Personalized Advice</h2>
+            <div class="advice-list" id="adviceList">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Did You Know? -->
+            <h2 class="section-title">Did You Know?</h2>
+            <div class="facts-list" id="factsList">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Data Sources -->
+            <div class="data-sources">
+                <h3>Data Sources</h3>
+                <ul>
+                    <li><a href="https://www.kaggle.com/datasets/uom190346a/sleep-health-and-lifestyle-dataset" target="_blank" rel="noopener">Kaggle — Sleep Health and Lifestyle Dataset</a></li>
+                    <li><a href="https://sleepresearchsociety.org/career-advancement/public-datasets/" target="_blank" rel="noopener">Sleep Research Society — Public Datasets (NSRR)</a></li>
+                    <li><a href="https://www.sleepfoundation.org/how-sleep-works/sleep-facts-statistics" target="_blank" rel="noopener">National Sleep Foundation — 100+ Sleep Statistics</a></li>
+                </ul>
+            </div>
+
+            <div class="actions center">
+                <button class="btn btn-secondary" id="restart-btn">Start Over</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
