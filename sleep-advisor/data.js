@@ -206,7 +206,81 @@ function analyzeSleepData(userData) {
     // Ensure bounds
     score = Math.max(10, Math.min(100, score));
 
-    // If no specific advice, add a generic positive one
+    // 5. Score-tiered supplementary advice
+    // The lower the score, the more extra tips are provided
+    const supplementaryAdvice = [
+        {
+            minScore: 0, maxScore: 55,
+            type: 'warning',
+            title: 'Try Sleep Restriction Therapy',
+            text: 'Paradoxically, spending less time in bed can improve sleep quality. Limit your time in bed to your actual sleep duration, then gradually extend it by 15 minutes as your efficiency improves. This builds stronger sleep pressure.'
+        },
+        {
+            minScore: 0, maxScore: 55,
+            type: 'info',
+            title: 'Practice 4-7-8 Breathing',
+            text: 'The 4-7-8 technique (inhale 4 sec, hold 7 sec, exhale 8 sec) activates your parasympathetic nervous system and lowers heart rate. Repeat 4 cycles before bed. Studies show it can reduce time to fall asleep by up to 40%.'
+        },
+        {
+            minScore: 0, maxScore: 70,
+            type: 'info',
+            title: 'Morning Sunlight Exposure',
+            text: 'Get 10-15 minutes of natural sunlight within the first hour of waking. This resets your circadian clock by suppressing melatonin and boosting cortisol at the right time, leading to better sleep onset 14-16 hours later.'
+        },
+        {
+            minScore: 0, maxScore: 40,
+            type: 'warning',
+            title: 'Consider Magnesium Supplementation',
+            text: 'Magnesium glycinate (200-400mg before bed) has been shown to improve sleep quality in people with low magnesium levels. It regulates GABA receptors and melatonin production. Consult your doctor before starting any supplement.'
+        },
+        {
+            minScore: 0, maxScore: 40,
+            type: 'info',
+            title: 'Start a Sleep Journal',
+            text: 'Track your bedtime, wake time, how long it takes to fall asleep, and how you feel each morning. After 2 weeks, patterns will emerge that reveal your biggest sleep disruptors. This is the first step in Cognitive Behavioral Therapy for Insomnia (CBT-I).'
+        },
+        {
+            minScore: 0, maxScore: 55,
+            type: 'info',
+            title: 'Create a Wind-Down Ritual',
+            text: 'Establish a consistent 30-45 minute pre-sleep routine: dim the lights, do light stretching or yoga, and engage in a calming activity like reading. Rituals signal to your brain that sleep is approaching, reducing arousal.'
+        },
+        {
+            minScore: 0, maxScore: 40,
+            type: 'warning',
+            title: 'Evaluate Your Mattress & Pillow',
+            text: 'An unsupportive mattress or pillow can reduce sleep quality by up to 20%. If your mattress is over 7-8 years old or you wake with aches, it may be time to replace it. Side sleepers need thicker pillows; back sleepers need thinner ones.'
+        },
+        {
+            minScore: 0, maxScore: 70,
+            type: 'info',
+            title: 'Limit Naps to 20 Minutes',
+            text: 'Long or late-afternoon naps reduce sleep drive (adenosine buildup) and make it harder to fall asleep at night. If you must nap, keep it under 20 minutes and before 2 PM to avoid disrupting your nighttime sleep pressure.'
+        },
+        {
+            minScore: 0, maxScore: 40,
+            type: 'warning',
+            title: 'Seek Professional Help',
+            text: 'A consistently low sleep score may indicate an underlying sleep disorder such as insomnia, sleep apnea, or restless leg syndrome. Consider consulting a sleep specialist or asking your doctor about a sleep study for a proper diagnosis.'
+        }
+    ];
+
+    // Filter supplementary advice by score range, and avoid duplicate titles
+    const existingTitles = new Set(advice.map(a => a.title));
+    const roundedScore = Math.round(score);
+    
+    supplementaryAdvice.forEach(tip => {
+        if (roundedScore >= tip.minScore && roundedScore <= tip.maxScore && !existingTitles.has(tip.title)) {
+            advice.push({
+                type: tip.type,
+                title: tip.title,
+                text: tip.text
+            });
+            existingTitles.add(tip.title);
+        }
+    });
+
+    // If no specific advice at all, add a generic positive one
     if (advice.length === 0) {
         advice.push({
             type: 'success',
