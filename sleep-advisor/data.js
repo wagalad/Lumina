@@ -145,23 +145,63 @@ function analyzeSleepData(userData) {
     });
 
     // 4. Calculate Score (Base 100)
-    let score = (userData.quality * 5); // Max 50 points from quality
-    
-    if (durationHours >= 7 && durationHours <= 9) score += 20;
-    else if (durationHours >= 6 && durationHours <= 10) score += 10;
-    
-    if (!userData.irregularSchedule) score += 10;
-    
-    // Deduct points for bad habits
-    let deductions = userData.habits.length * 5;
-    
-    // Additional deductions for SRS/Kaggle factors
-    if (userData.stressLevel >= 7) deductions += 10;
-    if (userData.physicalActivity < 20) deductions += 5;
-    if (userData.sleepLatency > 30) deductions += 5;
-    if (userData.waso > 30) deductions += 5;
+    // --- Quality Component (max 35 pts) ---
+    // Uses a curve so mid-range quality (5-7) still earns decent points
+    const qualityNorm = userData.quality / 10; // 0 to 1
+    const qualityScore = Math.round(35 * Math.pow(qualityNorm, 0.7));
 
-    score -= deductions;
+    // --- Duration Component (max 25 pts) ---
+    // Bell curve centered on 8 hours; 7-9h is the sweet spot
+    const optimalDuration = 8;
+    const durationDiff = Math.abs(durationHours - optimalDuration);
+    let durationScore;
+    if (durationDiff <= 1) {
+        // 7-9 hours: full or near-full marks
+        durationScore = Math.round(25 * (1 - durationDiff * 0.1));
+    } else if (durationDiff <= 2) {
+        // 6-7h or 9-10h: decent marks
+        durationScore = Math.round(25 * (0.7 - (durationDiff - 1) * 0.2));
+    } else {
+        // < 6h or > 10h: low marks, but never zero
+        durationScore = Math.max(3, Math.round(25 * Math.max(0, 0.3 - (durationDiff - 2) * 0.1)));
+    }
+
+    // --- Schedule Consistency (max 10 pts) ---
+    const scheduleScore = userData.irregularSchedule ? 0 : 10;
+
+    // --- Baseline Bonus (15 pts) ---
+    // Everyone starts with some points so scores aren't unreasonably low
+    const baselineBonus = 15;
+
+    // --- Deductions (capped at 30) ---
+    let deductions = 0;
+
+    // Bad habits: 3 pts each (softer than before)
+    deductions += userData.habits.length * 3;
+
+    // Stress: graduated scale instead of binary
+    if (userData.stressLevel >= 8) deductions += 8;
+    else if (userData.stressLevel >= 6) deductions += 4;
+    else if (userData.stressLevel >= 4) deductions += 1;
+
+    // Low physical activity
+    if (userData.physicalActivity < 15) deductions += 4;
+    else if (userData.physicalActivity < 30) deductions += 2;
+
+    // Sleep onset latency
+    if (userData.sleepLatency > 45) deductions += 5;
+    else if (userData.sleepLatency > 30) deductions += 3;
+    else if (userData.sleepLatency > 20) deductions += 1;
+
+    // WASO (wake after sleep onset)
+    if (userData.waso > 45) deductions += 5;
+    else if (userData.waso > 30) deductions += 3;
+    else if (userData.waso > 15) deductions += 1;
+
+    // Cap total deductions so scores don't crater
+    deductions = Math.min(deductions, 30);
+
+    let score = qualityScore + durationScore + scheduleScore + baselineBonus - deductions;
     
     // Ensure bounds
     score = Math.max(10, Math.min(100, score));
