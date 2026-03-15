@@ -285,21 +285,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const factsListEl = document.getElementById('factsList');
         if (factsListEl) {
             const allFacts = [
-                { icon: '📊', text: '<strong>1 in 3 adults</strong> don\'t get enough sleep. The CDC recommends at least 7 hours per night for adults aged 18-60.' },
-                { icon: '☕', text: '<strong>94% of Americans</strong> drink caffeinated beverages. Caffeine has a half-life of 4-6 hours and blocks adenosine receptors that promote sleep pressure.' },
-                { icon: '🍷', text: 'Alcohol before bed can <strong>decrease sleep quality by 39%</strong>. It suppresses REM sleep in the first half of the night, causing fragmented cycles.' },
-                { icon: '🥜', text: 'Adults who snack on <strong>seeds and nuts</strong> before bed sleep <strong>32 minutes more</strong> on average than those who snack on chips or pretzels.' },
-                { icon: '🛏️', text: 'Eating within <strong>2 hours of bedtime</strong> is linked to later bedtimes, trouble falling and staying asleep, and obesity.' },
-                { icon: '💤', text: 'On average, we spend about <strong>2 hours per night dreaming</strong>, mostly during REM sleep. Deep sleep decreases as you age.' },
-                { icon: '🔬', text: 'The <strong>Sleep Heart Health Study (SHHS)</strong> tracked 6,441 participants and found strong links between sleep-disordered breathing and cardiovascular disease.' },
-                { icon: '📱', text: 'Blue light from screens suppresses melatonin production by up to <strong>50%</strong>. Using night mode helps, but putting screens away 45 min before bed is most effective.' },
-                { icon: '🏃', text: 'People who exercise for <strong>30+ minutes daily</strong> score significantly higher on sleep quality indexes, according to Kaggle sleep health data analysis.' },
-                { icon: '😰', text: 'Kaggle data shows a <strong>strong inverse correlation</strong> between daily stress levels and sleep quality scores. Stress management is one of the most impactful sleep interventions.' }
+                // Sleep Foundation & General
+                { icon: '📊', text: '<strong>1 in 3 adults</strong> don\'t get enough sleep. The CDC recommends at least 7 hours per night for adults aged 18-60. <em>(National Sleep Foundation)</em>' },
+                { icon: '☕', text: '<strong>94% of Americans</strong> drink caffeinated beverages. Caffeine has a half-life of 4-6 hours and blocks adenosine receptors that promote sleep pressure. <em>(National Sleep Foundation)</em>' },
+                { icon: '🍷', text: 'Alcohol before bed can <strong>decrease sleep quality by 39%</strong>. It suppresses REM sleep in the first half of the night, causing fragmented cycles. <em>(National Sleep Foundation)</em>' },
+                { icon: '🥜', text: 'Adults who snack on <strong>seeds and nuts</strong> before bed sleep <strong>32 minutes more</strong> on average than those who snack on chips or pretzels. <em>(National Sleep Foundation)</em>' },
+                { icon: '🛏️', text: 'Eating within <strong>2 hours of bedtime</strong> is linked to later bedtimes, trouble falling and staying asleep, and obesity. <em>(National Sleep Foundation)</em>' },
+                { icon: '💤', text: 'On average, we spend about <strong>2 hours per night dreaming</strong>, mostly during REM sleep. Deep sleep decreases as you age. <em>(National Sleep Foundation)</em>' },
+                { icon: '📱', text: 'Blue light from screens suppresses melatonin production by up to <strong>50%</strong>. Using night mode helps, but putting screens away 45 min before bed is most effective. <em>(National Sleep Foundation)</em>' },
+                // Kaggle
+                { icon: '🏃', text: 'People who exercise for <strong>30+ minutes daily</strong> score significantly higher on sleep quality indexes. <em>(Kaggle Sleep Health Dataset)</em>' },
+                { icon: '😰', text: 'There is a <strong>strong inverse correlation</strong> between daily stress levels and sleep quality scores. Stress management is one of the most impactful sleep interventions. <em>(Kaggle Sleep Health Dataset)</em>' },
+                // NSRR / SHHS
+                { icon: '🔬', text: 'The <strong>Sleep Heart Health Study (SHHS)</strong> tracked 6,441 participants and found strong links between sleep-disordered breathing and cardiovascular disease, stroke, and hypertension. <em>(NSRR/SHHS)</em>' },
+                { icon: '🧬', text: 'The <strong>Cleveland Family Study</strong> (2,284 participants, 46% African American) found that sleep apnea has a significant <strong>familial/genetic component</strong> — your family history matters. <em>(NSRR)</em>' },
+                { icon: '👴', text: 'The <strong>MrOS Sleep Study</strong> found that sleep-disordered breathing in elderly men is strongly linked to <strong>increased fracture risk and mortality</strong>. <em>(NSRR)</em>' },
+                // HSP / BDSP
+                { icon: '🧠', text: 'The <strong>Human Sleep Project</strong> (26,200+ PSG studies) discovered that sleep EEG can reveal "brain age" — and accelerated brain aging <strong>predicts shorter life expectancy</strong>. <em>(HSP/BDSP, Mass General Hospital)</em>' },
+                { icon: '🏥', text: 'HSP researchers are using sleep data to detect early signs of <strong>Alzheimer\'s disease and cerebrovascular disease</strong> before clinical symptoms appear. <em>(HSP/BDSP)</em>' },
+                // SleepFM / Nature Medicine
+                { icon: '🤖', text: 'The <strong>SleepFM</strong> AI model, trained on 585,000+ hours of sleep data, can predict <strong>130+ diseases</strong> from a single night of sleep — including dementia (C-Index 0.85) and heart failure (0.80). <em>(Nature Medicine, 2026)</em>' },
+                { icon: '⚠️', text: 'SleepFM found that sleep data predicts <strong>Parkinson\'s disease</strong> with an AUROC of 0.93 — sleep disorders are increasingly seen as an <strong>early warning sign</strong>. <em>(Nature Medicine, 2026)</em>' },
+                { icon: '💀', text: 'Low REM sleep, high arousal burden, and low sleep efficiency are each <strong>independently associated with higher all-cause mortality</strong>. <em>(SleepFM / Nature Medicine, 2026)</em>' },
+                // SleepFounder / medRxiv
+                { icon: '💓', text: '<strong>~85 million Americans</strong> have obstructive sleep apnea, but about <strong>80% remain undiagnosed</strong>. Heartbeat and breathing patterns alone can detect it. <em>(SleepFounder, medRxiv 2025)</em>' },
+                { icon: '🫀', text: 'The <strong>SleepFounder</strong> model showed that cardiorespiratory signals during sleep predict heart failure (AUROC 0.88), GERD (0.89), and high cholesterol (0.83). <em>(medRxiv, 2025)</em>' },
+                // ISRUC-Sleep
+                { icon: '📉', text: 'PSG recordings in the <strong>ISRUC-Sleep</strong> dataset, scored by two independent experts, show that people with sleep disorders spend <strong>significantly less time in N3 (deep) and REM sleep</strong> stages. <em>(ISRUC-Sleep, Univ. of Coimbra)</em>' }
             ];
 
-            // Pick 4 random facts
+            // Pick 5 random facts
             const shuffled = allFacts.sort(() => 0.5 - Math.random());
-            const selectedFacts = shuffled.slice(0, 4);
+            const selectedFacts = shuffled.slice(0, 5);
 
             factsListEl.innerHTML = '';
             selectedFacts.forEach((fact, i) => {

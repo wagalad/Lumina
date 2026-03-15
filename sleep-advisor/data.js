@@ -107,6 +107,74 @@ const sleepAdviceDB = [
         type: 'warning',
         title: 'High Sleep Fragmentation (SRS Actigraphy Data)',
         text: (data) => `Being awake for ${data.waso} minutes during the night (Wake After Sleep Onset - WASO) significantly lowers sleep efficiency. Limit evening liquids to prevent bathroom trips, and ensure your room is noise and light-proof.`
+    },
+    // ---- NSRR / SHHS Insights ----
+    {
+        id: 'nsrr_cardiovascular',
+        condition: (data) => data.quality <= 5 && data.durationHours < 7,
+        type: 'warning',
+        title: 'Cardiovascular Risk from Poor Sleep (NSRR/SHHS)',
+        text: (data) => 'The Sleep Heart Health Study (SHHS), tracking 6,441 participants, found that short sleep duration combined with poor quality is strongly associated with increased risk of coronary heart disease, stroke, and hypertension. Prioritizing 7+ hours of quality sleep is a protective cardiovascular measure.'
+    },
+    {
+        id: 'nsrr_sdb',
+        condition: (data) => data.waso > 20 && (data.bmiCategory === 'Obese' || data.bmiCategory === 'Overweight'),
+        type: 'warning',
+        title: 'Sleep-Disordered Breathing Risk (NSRR/SHHS)',
+        text: (data) => 'NSRR data from the SHHS and MrOS studies shows that frequent nighttime awakenings combined with higher BMI significantly increase the risk of sleep-disordered breathing (SDB). SDB is linked to cardiovascular disease and all-cause mortality. Consider a sleep study if you snore loudly or feel exhausted despite adequate time in bed.'
+    },
+    // ---- HSP / BDSP Insights ----
+    {
+        id: 'hsp_neuro',
+        condition: (data) => data.quality <= 4 && data.stressLevel >= 7,
+        type: 'warning',
+        title: 'Neurological Health & Sleep (HSP/BDSP)',
+        text: (data) => 'Research from the Human Sleep Project (26,200+ PSG studies, Massachusetts General Hospital) shows that chronic poor sleep quality combined with high stress is associated with accelerated \'brain aging\' and increased risk of cerebrovascular disease and Alzheimer\'s. Improving sleep may serve as a neuroprotective intervention.'
+    },
+    {
+        id: 'hsp_brain_age',
+        condition: (data) => data.durationHours < 6,
+        type: 'info',
+        title: 'Sleep Duration & Brain Age (HSP/BDSP)',
+        text: (data) => `At ${data.durationHours} hours, you\'re well below optimal duration. HSP data shows that EEG-derived "brain age" from sleep studies predicts life expectancy — consistently sleeping under 6 hours accelerates biological brain aging. Even small increases in sleep duration can help reverse this trend.`
+    },
+    // ---- SleepFM / Nature Medicine Insights ----
+    {
+        id: 'sleepfm_disease',
+        condition: (data) => data.quality <= 3,
+        type: 'warning',
+        title: 'Sleep as a Disease Predictor (SleepFM, Nature Medicine 2026)',
+        text: (data) => 'A landmark 2026 study in Nature Medicine found that a single night of sleep data can predict 130+ future health conditions, including dementia (C-Index 0.85), heart failure (0.80), and chronic kidney disease (0.79). Very poor sleep quality is not just an inconvenience — it\'s a clinical signal. Discuss your sleep with a healthcare provider.'
+    },
+    {
+        id: 'sleepfm_rem',
+        condition: (data) => data.durationHours < 7 && data.habits.includes('alcohol'),
+        type: 'warning',
+        title: 'REM Sleep & Mortality Risk (SleepFM Research)',
+        text: (data) => 'SleepFM research demonstrated a strong association between low REM sleep and all-cause mortality. Alcohol suppresses REM sleep, and short sleep duration further reduces the window for REM cycles (which concentrate in the second half of the night). This combination is particularly harmful.'
+    },
+    // ---- SleepFounder / medRxiv Insights ----
+    {
+        id: 'sleepfounder_apnea',
+        condition: (data) => data.bmiCategory === 'Obese' && data.waso > 15,
+        type: 'warning',
+        title: 'Undiagnosed Sleep Apnea Risk (SleepFounder Research)',
+        text: (data) => 'The SleepFounder study analyzed 780,000+ hours of multi-ethnic sleep recordings and warns that ~85 million Americans have obstructive sleep apnea, ~80% undiagnosed. Your combination of higher BMI and nighttime awakenings are key risk indicators. A sleep study or home monitoring test could be life-changing.'
+    },
+    {
+        id: 'sleepfounder_cardio',
+        condition: (data) => data.quality <= 5 && data.stressLevel >= 6 && data.physicalActivity < 30,
+        type: 'info',
+        title: 'Cardiorespiratory Signals & Health (SleepFounder Research)',
+        text: (data) => 'The SleepFounder model (medRxiv 2025) showed that heartbeat and respiratory patterns during sleep predict heart failure (AUROC 0.88), high cholesterol (0.83), and coronary heart disease (0.81). Poor sleep quality, high stress, and low activity together amplify cardiovascular risk. Improving any one factor can help.'
+    },
+    // ---- ISRUC-Sleep Insights ----
+    {
+        id: 'isruc_architecture',
+        condition: (data) => data.waso > 20 && data.sleepLatency > 20,
+        type: 'info',
+        title: 'Sleep Architecture Disruption (ISRUC-Sleep Dataset)',
+        text: (data) => 'PSG data from the ISRUC-Sleep dataset (University of Coimbra) shows that combined high sleep latency and frequent awakenings disrupt normal sleep stage cycling — reducing time in restorative N3 (deep sleep) and REM stages. Stimulus control therapy and consistent wake times can help restore healthy sleep architecture.'
     }
 ];
 

@@ -588,11 +588,11 @@ select.styled-input {
     color: var(--text-main);
 }
 
-/* Data Sources */
+/* Data Sources / Citations */
 .data-sources {
     background: rgba(30, 20, 60, 0.4);
     border-radius: var(--radius-md);
-    padding: 1.25rem;
+    padding: 1.5rem;
     margin-bottom: 1.5rem;
     border: 1px solid var(--border-color);
 }
@@ -602,20 +602,36 @@ select.styled-input {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--text-muted);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
 }
 
-.data-sources ul {
-    list-style: none;
+.citations-list {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.citations-list li {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    padding-left: 0.25rem;
+}
+
+.citations-list li strong {
+    color: var(--text-main);
+}
+
+.citations-list li em {
+    color: var(--info);
+    font-style: italic;
 }
 
 .data-sources a {
     color: var(--accent);
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     transition: color 0.2s;
 }
 
