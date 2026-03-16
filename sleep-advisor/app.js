@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             state.data.sleepLatency = sleepLatencyInput ? parseInt(sleepLatencyInput.value, 10) || 0 : 15;
             state.data.waso = wasoInput ? parseInt(wasoInput.value, 10) || 0 : 0;
 
-            console.log('Data collected:', state.data);
+
 
             // Transition to Loading
             questionnaireSection.classList.add('hidden');
@@ -323,6 +323,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = document.createElement('div');
                 card.className = 'fact-card';
                 card.style.animationDelay = `${i * 0.15}s`;
+                // SECURITY: fact data is trusted, developer-authored HTML (hardcoded above).
+                // Do NOT use innerHTML with any user-supplied or external data.
                 card.innerHTML = `
                     <span class="fact-icon">${fact.icon}</span>
                     <span class="fact-text">${fact.text}</span>
