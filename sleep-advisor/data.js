@@ -175,6 +175,94 @@ const sleepAdviceDB = [
         type: 'info',
         title: 'Sleep Architecture Disruption (ISRUC-Sleep Dataset)',
         text: (data) => 'PSG data from the ISRUC-Sleep dataset (University of Coimbra) shows that combined high sleep latency and frequent awakenings disrupt normal sleep stage cycling — reducing time in restorative N3 (deep sleep) and REM stages. Stimulus control therapy and consistent wake times can help restore healthy sleep architecture.'
+    },
+    // ---- Age-Specific Insights ----
+    {
+        id: 'age_teen',
+        condition: (data) => data.ageGroup === 'teen' && data.durationHours < 8,
+        type: 'warning',
+        title: 'Teens Need More Sleep',
+        text: (data) => `At ${data.durationHours} hours, you're below the 8-10 hours recommended for teenagers. Adolescent brains undergo critical development during sleep — especially memory consolidation, emotional regulation, and growth hormone release. School start times often conflict with teens' naturally delayed circadian rhythm.`
+    },
+    {
+        id: 'age_young_adult',
+        condition: (data) => data.ageGroup === 'young_adult' && data.irregularSchedule,
+        type: 'info',
+        title: 'Young Adult Schedule Disruption',
+        text: (data) => 'Young adults (18-25) often have the most irregular schedules due to socializing, shift work, or college life. Your circadian rhythm is still maturing. Anchoring your wake time (even on weekends) is the single most impactful change you can make.'
+    },
+    {
+        id: 'age_senior',
+        condition: (data) => data.ageGroup === 'senior',
+        type: 'info',
+        title: 'Sleep Changes with Age',
+        text: (data) => 'After 65, it\'s normal to experience lighter sleep, more awakenings, and earlier wake times. Deep (N3) sleep decreases naturally. Focus on sleep efficiency rather than total hours — 7-8 hours in bed with minimal awakenings is ideal. Regular light exposure during the day helps maintain circadian strength.'
+    },
+    {
+        id: 'age_middle_age',
+        condition: (data) => data.ageGroup === 'middle_age' && data.stressLevel >= 6,
+        type: 'warning',
+        title: 'Midlife Stress & Sleep',
+        text: (data) => 'Adults aged 46-64 face a unique combination of career peak stress, family responsibilities, and early hormonal changes that erode sleep quality. Prioritize a non-negotiable wind-down routine and consider cognitive behavioral therapy for insomnia (CBT-I) — it outperforms sleep medication long-term.'
+    },
+    // ---- Environment Insights ----
+    {
+        id: 'env_light_leak',
+        condition: (data) => data.environment && data.environment.includes('light_leak'),
+        type: 'warning',
+        title: 'Light Exposure Disrupts Melatonin',
+        text: (data) => 'Even small amounts of ambient light suppress melatonin production and fragment sleep cycles. Invest in blackout curtains or a sleep mask. A study in PNAS found that sleeping with dim light (like a TV on) increased insulin resistance and heart rate even during sleep.'
+    },
+    {
+        id: 'env_noisy',
+        condition: (data) => data.environment && data.environment.includes('noisy'),
+        type: 'warning',
+        title: 'Noise Pollution & Sleep Fragmentation',
+        text: (data) => 'Environmental noise is one of the top causes of microarousals — brief awakenings you don\'t even remember but that prevent deep sleep. White noise machines or earplugs can reduce noise-related awakenings by up to 38%. Consistent background sounds are far less disruptive than intermittent noise.'
+    },
+    {
+        id: 'env_warm',
+        condition: (data) => data.environment && data.environment.includes('warm_room'),
+        type: 'warning',
+        title: 'Your Room Is Too Warm',
+        text: (data) => 'A warm bedroom is one of the most common and fixable sleep disruptors. Your core body temperature needs to drop 1-2°F to initiate sleep. The ideal range is 60-67°F (15-19°C). Try cooling your room, using breathable bed sheets, or taking a warm shower before bed (the post-shower cooling effect helps).'
+    },
+    {
+        id: 'env_optimal',
+        condition: (data) => data.environment && data.environment.includes('dark_room') && data.environment.includes('quiet_room') && data.environment.includes('cool_room'),
+        type: 'success',
+        title: 'Excellent Sleep Environment',
+        text: (data) => 'Your bedroom hits all three pillars of an optimal sleep environment: dark, quiet, and cool. This is a major advantage — environment alone can account for a 20-30% difference in sleep quality. Keep it up.'
+    },
+    // ---- Napping Insights ----
+    {
+        id: 'nap_long_daily',
+        condition: (data) => data.napFrequency === 'daily' && (data.napDuration === 'long' || data.napDuration === 'very_long'),
+        type: 'warning',
+        title: 'Long Daily Naps Are Hurting Your Night Sleep',
+        text: (data) => 'Napping over 45 minutes every day significantly reduces your adenosine sleep pressure — the biological drive that makes you sleepy at night. This leads to longer sleep onset latency and more fragmented nighttime sleep. Limit naps to under 20 minutes, or skip them entirely if you struggle to fall asleep at night.'
+    },
+    {
+        id: 'nap_compensatory',
+        condition: (data) => (data.napFrequency === 'sometimes' || data.napFrequency === 'daily') && data.durationHours < 6.5,
+        type: 'info',
+        title: 'Napping as a Symptom of Sleep Debt',
+        text: (data) => `You\'re sleeping ${data.durationHours} hours at night and napping regularly — this suggests accumulated sleep debt. While naps provide partial recovery, they can\'t fully replace the deep sleep and REM cycles that happen during a full night. Address the root cause by extending your night sleep window.`
+    },
+    // ---- Social Jet Lag Insights ----
+    {
+        id: 'social_jetlag',
+        condition: (data) => data.weekendShift === '2hr' || data.weekendShift === '3hr_plus',
+        type: 'warning',
+        title: 'Social Jet Lag Detected',
+        text: (data) => 'Sleeping 2+ hours later on weekends creates "social jet lag" — a chronic misalignment between your body clock and social schedule. Research published in Current Biology shows this is equivalent to flying across time zones every week. It\'s linked to higher BMI, worse mood, and increased cardiovascular risk. Try limiting weekend sleep-in to 30-60 minutes max.'
+    },
+    {
+        id: 'social_jetlag_bedtime',
+        condition: (data) => data.weekendBedtime === '2hr_later' || data.weekendBedtime === '3hr_later',
+        type: 'info',
+        title: 'Late Weekend Bedtimes Shift Your Clock',
+        text: (data) => 'Going to bed 2+ hours later on weekends delays your circadian rhythm, making Monday mornings brutal. This "Sunday night insomnia" effect cascades through the week. A consistent bedtime (within 30-60 minutes) is one of the strongest predictors of good sleep quality across all research datasets.'
     }
 ];
 
@@ -213,41 +301,56 @@ function analyzeSleepData(userData) {
     });
 
     // 4. Calculate Score (Base 100)
-    // --- Quality Component (max 35 pts) ---
+    // --- Quality Component (max 30 pts) ---
     // Uses a curve so mid-range quality (5-7) still earns decent points
     const qualityNorm = userData.quality / 10; // 0 to 1
-    const qualityScore = Math.round(35 * Math.pow(qualityNorm, 0.7));
+    const qualityScore = Math.round(30 * Math.pow(qualityNorm, 0.7));
 
-    // --- Duration Component (max 25 pts) ---
-    // Bell curve centered on 8 hours; 7-9h is the sweet spot
-    const optimalDuration = 8;
-    const durationDiff = Math.abs(durationHours - optimalDuration);
-    let durationScore;
-    if (durationDiff <= 1) {
-        // 7-9 hours: full or near-full marks
-        durationScore = Math.round(25 * (1 - durationDiff * 0.1));
-    } else if (durationDiff <= 2) {
-        // 6-7h or 9-10h: decent marks
-        durationScore = Math.round(25 * (0.7 - (durationDiff - 1) * 0.2));
-    } else {
-        // < 6h or > 10h: low marks, but never zero
-        durationScore = Math.max(3, Math.round(25 * Math.max(0, 0.3 - (durationDiff - 2) * 0.1)));
+    // --- Duration Component (max 22 pts) ---
+    // Age-adjusted optimal range
+    let optimalDuration = 8;
+    let durationTolerance = 1; // hours in either direction for full marks
+    if (userData.ageGroup === 'teen') {
+        optimalDuration = 9; // teens need 8-10h
+        durationTolerance = 1;
+    } else if (userData.ageGroup === 'young_adult') {
+        optimalDuration = 8; // 7-9h
+    } else if (userData.ageGroup === 'senior') {
+        optimalDuration = 7.5; // 7-8h is fine
+        durationTolerance = 0.5;
     }
 
-    // --- Schedule Consistency (max 10 pts) ---
-    const scheduleScore = userData.irregularSchedule ? 0 : 10;
+    const durationDiff = Math.abs(durationHours - optimalDuration);
+    let durationScore;
+    if (durationDiff <= durationTolerance) {
+        durationScore = Math.round(22 * (1 - durationDiff * 0.08));
+    } else if (durationDiff <= durationTolerance + 1) {
+        durationScore = Math.round(22 * (0.7 - (durationDiff - durationTolerance) * 0.2));
+    } else {
+        durationScore = Math.max(3, Math.round(22 * Math.max(0, 0.3 - (durationDiff - durationTolerance - 1) * 0.1)));
+    }
 
-    // --- Baseline Bonus (15 pts) ---
-    // Everyone starts with some points so scores aren't unreasonably low
-    const baselineBonus = 15;
+    // --- Schedule Consistency (max 8 pts) ---
+    const scheduleScore = userData.irregularSchedule ? 0 : 8;
 
-    // --- Deductions (capped at 30) ---
+    // --- Environment Component (max 10 pts) ---
+    // Positive factors add points; this rewards good environment
+    let envScore = 0;
+    const env = userData.environment || [];
+    if (env.includes('dark_room')) envScore += 3;
+    if (env.includes('quiet_room')) envScore += 3;
+    if (env.includes('cool_room')) envScore += 4;
+
+    // --- Baseline Bonus (12 pts) ---
+    const baselineBonus = 12;
+
+    // --- Deductions (capped at 42) ---
     let deductions = 0;
 
-    // Bad habits: 3 pts each (softer than before)
+    // Bad habits: 3 pts each
     deductions += userData.habits.length * 3;
 
-    // Stress: graduated scale instead of binary
+    // Stress: graduated scale
     if (userData.stressLevel >= 8) deductions += 8;
     else if (userData.stressLevel >= 6) deductions += 4;
     else if (userData.stressLevel >= 4) deductions += 1;
@@ -261,15 +364,37 @@ function analyzeSleepData(userData) {
     else if (userData.sleepLatency > 30) deductions += 3;
     else if (userData.sleepLatency > 20) deductions += 1;
 
-    // WASO (wake after sleep onset)
+    // WASO
     if (userData.waso > 45) deductions += 5;
     else if (userData.waso > 30) deductions += 3;
     else if (userData.waso > 15) deductions += 1;
 
-    // Cap total deductions so scores don't crater
-    deductions = Math.min(deductions, 30);
+    // Environment negatives
+    if (env.includes('light_leak')) deductions += 2;
+    if (env.includes('noisy')) deductions += 2;
+    if (env.includes('warm_room')) deductions += 2;
 
-    let score = qualityScore + durationScore + scheduleScore + baselineBonus - deductions;
+    // Napping deductions (long/frequent naps reduce sleep drive)
+    const napFreq = userData.napFrequency || 'never';
+    const napDur = userData.napDuration || 'short';
+    if (napFreq === 'daily' && (napDur === 'long' || napDur === 'very_long')) deductions += 5;
+    else if (napFreq === 'daily' && napDur === 'medium') deductions += 3;
+    else if (napFreq === 'sometimes' && (napDur === 'long' || napDur === 'very_long')) deductions += 3;
+    else if (napFreq === 'daily' && napDur === 'short') deductions += 1;
+
+    // Social jet lag deductions (weekend schedule difference)
+    const weekendShift = userData.weekendShift || 'same';
+    const weekendBedtime = userData.weekendBedtime || 'same';
+    if (weekendShift === '3hr_plus') deductions += 5;
+    else if (weekendShift === '2hr') deductions += 3;
+    else if (weekendShift === '1hr') deductions += 1;
+    if (weekendBedtime === '3hr_later') deductions += 3;
+    else if (weekendBedtime === '2hr_later') deductions += 2;
+
+    // Cap total deductions
+    deductions = Math.min(deductions, 42);
+
+    let score = qualityScore + durationScore + scheduleScore + envScore + baselineBonus - deductions;
     
     // Ensure bounds
     score = Math.max(10, Math.min(100, score));

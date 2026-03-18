@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,28 +7,127 @@
     <meta name="description" content="Personalized, scientifically-backed advice to optimize your sleep and wake up refreshed.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="background-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
 
-    <main class="app-container">
-        <header class="app-header">
-            <div class="logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Floating particles background -->
+    <div class="particles" id="particles" aria-hidden="true"></div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo" id="nav-logo-link">
+            <div class="nav-logo-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span>Lumina</span>
             </div>
-            <p class="tagline">Optimize your rest</p>
-        </header>
+            <span>Lumina</span>
+        </a>
+        <div class="nav-actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+                <svg class="theme-icon sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <svg class="theme-icon moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
 
-        <section id="questionnaire-section" class="glass-card active">
+    <main class="app-container">
+        <!-- ========== HOMEPAGE ========== -->
+        <section id="homepage-section" class="homepage">
+            <div class="hero">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    Science-backed sleep analysis
+                </div>
+                <h1 class="hero-headline">
+                    Sleep smarter.<br>
+                    <span class="gradient-text">Wake up feeling alive.</span>
+                </h1>
+                <p class="hero-sub">Nine questions. Three minutes. One personalized sleep report built on data from <strong>800,000+ hours</strong> of peer-reviewed research.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card" id="feature-science">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Research-Grade Data</h3>
+                        <p>Built on NSRR, SHHS, and Nature Medicine datasets — not guesswork.</p>
+                    </div>
+                </div>
+                <div class="feature-card" id="feature-quick">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Done in 3 Minutes</h3>
+                        <p>Nine focused questions about your habits, health, and patterns.</p>
+                    </div>
+                </div>
+                <div class="feature-card" id="feature-personalized">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Just for You</h3>
+                        <p>Personalized score, efficiency metrics, and tailored action items.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trust-bar">
+                <div class="trust-stat">
+                    <strong>10+</strong>
+                    <span>Research datasets</span>
+                </div>
+                <div class="trust-divider"></div>
+                <div class="trust-stat">
+                    <strong>800K+</strong>
+                    <span>Hours of sleep data</span>
+                </div>
+                <div class="trust-divider"></div>
+                <div class="trust-stat">
+                    <strong>9</strong>
+                    <span>Quick questions</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-cta" id="start-btn">
+                <span>Start Sleep Assessment</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+
+            <p class="disclaimer">Free. No sign-up. Your data stays in your browser.</p>
+        </section>
+
+        <!-- ========== QUESTIONNAIRE ========== -->
+        <section id="questionnaire-section" class="card" style="display:none;">
+            <div class="step-indicator" id="step-indicator">
+                <div class="step-dot active" data-step="1"><span>1</span><small>Quality</small></div>
+                <div class="step-dot" data-step="2"><span>2</span><small>Schedule</small></div>
+                <div class="step-dot" data-step="3"><span>3</span><small>Habits</small></div>
+                <div class="step-dot" data-step="4"><span>4</span><small>Age</small></div>
+                <div class="step-dot" data-step="5"><span>5</span><small>Room</small></div>
+                <div class="step-dot" data-step="6"><span>6</span><small>Naps</small></div>
+                <div class="step-dot" data-step="7"><span>7</span><small>Weekend</small></div>
+                <div class="step-dot" data-step="8"><span>8</span><small>Health</small></div>
+                <div class="step-dot" data-step="9"><span>9</span><small>Sleep</small></div>
+            </div>
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progress-bar"></div>
             </div>
@@ -36,10 +135,14 @@
             <!-- Step 1 -->
             <div class="step active" id="step-1">
                 <h2>How would you rate your typical sleep quality?</h2>
-                <p class="subtitle">On a scale from 1 (poor) to 10 (excellent)</p>
+                <p class="subtitle">Drag the slider — be honest, no judgement here 😴</p>
                 <div class="slider-container">
                     <input type="range" id="sleepQuality" min="1" max="10" value="5" class="styled-slider">
                     <div class="slider-value" id="qualityValue">5</div>
+                    <div class="slider-labels">
+                        <span>Rough</span>
+                        <span>Amazing</span>
+                    </div>
                 </div>
                 <div class="actions">
                     <button class="btn btn-primary next-btn" data-next="2">Next Step</button>
@@ -48,20 +151,27 @@
 
             <!-- Step 2 -->
             <div class="step" id="step-2">
-                <h2>What is your typical schedule?</h2>
+                <h2>What's your typical schedule?</h2>
+                <p class="subtitle">When do you usually hit the pillow and get up?</p>
                 <div class="input-group">
-                    <label for="bedTime">Average Bedtime</label>
+                    <label for="bedTime">
+                        <span class="label-icon">🌙</span>
+                        Average Bedtime
+                    </label>
                     <input type="time" id="bedTime" value="23:00" class="styled-input">
                 </div>
                 <div class="input-group">
-                    <label for="wakeTime">Average Wake Time</label>
+                    <label for="wakeTime">
+                        <span class="label-icon">☀️</span>
+                        Average Wake Time
+                    </label>
                     <input type="time" id="wakeTime" value="07:00" class="styled-input">
                 </div>
                 <div class="input-group checkbox-group">
                     <label class="custom-checkbox">
                         <input type="checkbox" id="irregularSchedule">
                         <span class="checkmark"></span>
-                        My schedule varies wildly from day to day
+                        My schedule is all over the place
                     </label>
                 </div>
                 <div class="actions split">
@@ -72,7 +182,7 @@
 
             <!-- Step 3 -->
             <div class="step" id="step-3">
-                <h2>Evening Habits</h2>
+                <h2>Evening habits check ✨</h2>
                 <p class="subtitle">Select all that apply to your typical evening</p>
                 
                 <div class="options-grid">
@@ -104,26 +214,31 @@
                 </div>
             </div>
 
-            <!-- Step 4: Health & Lifestyle (Kaggle Dataset) -->
+            <!-- Step 4: Age Group -->
             <div class="step" id="step-4">
-                <h2>Health & Lifestyle</h2>
-                <p class="subtitle">Based on Kaggle's Sleep Health Dataset metrics</p>
-                <div class="input-group">
-                    <label for="stressLevel">Daily Stress Level (1-10)</label>
-                    <input type="range" id="stressLevel" min="1" max="10" value="5" class="styled-slider">
-                    <div class="slider-value" id="stressValue" style="font-size:1.5rem;">5</div>
-                </div>
-                <div class="input-group">
-                    <label for="physicalActivity">Physical Activity (minutes/day)</label>
-                    <input type="number" id="physicalActivity" value="30" class="styled-input" min="0">
-                </div>
-                <div class="input-group">
-                    <label for="bmiCategory">BMI Category</label>
-                    <select id="bmiCategory" class="styled-input">
-                        <option value="Normal">Normal</option>
-                        <option value="Overweight">Overweight</option>
-                        <option value="Obese">Obese</option>
-                    </select>
+                <h2>How old are you? 🎂</h2>
+                <p class="subtitle">Sleep needs change significantly with age</p>
+                <div class="options-grid">
+                    <div class="option-card age-card" data-value="teen">
+                        <div class="icon">🧑‍🎓</div>
+                        <span>13–17</span>
+                    </div>
+                    <div class="option-card age-card" data-value="young_adult">
+                        <div class="icon">🧑‍💻</div>
+                        <span>18–25</span>
+                    </div>
+                    <div class="option-card age-card selected" data-value="adult">
+                        <div class="icon">🧑‍💼</div>
+                        <span>26–45</span>
+                    </div>
+                    <div class="option-card age-card" data-value="middle_age">
+                        <div class="icon">👔</div>
+                        <span>46–64</span>
+                    </div>
+                    <div class="option-card age-card" data-value="senior">
+                        <div class="icon">🧓</div>
+                        <span>65+</span>
+                    </div>
                 </div>
                 <div class="actions split">
                     <button class="btn btn-secondary prev-btn" data-prev="3">Back</button>
@@ -131,62 +246,240 @@
                 </div>
             </div>
 
-            <!-- Step 5: Sleep Continuity (SRS Data) -->
+            <!-- Step 5: Sleep Environment -->
             <div class="step" id="step-5">
-                <h2>Sleep Continuity</h2>
-                <p class="subtitle">Based on National Sleep Research Resource (NSRR) Actigraphy</p>
-                <div class="input-group">
-                    <label for="sleepLatency">Sleep Onset Latency (minutes to fall asleep)</label>
-                    <input type="number" id="sleepLatency" value="15" class="styled-input" min="0">
-                </div>
-                <div class="input-group">
-                    <label for="waso">Wake After Sleep Onset (minutes awake during the night)</label>
-                    <input type="number" id="waso" value="0" class="styled-input" min="0">
+                <h2>Your sleep environment 🌑</h2>
+                <p class="subtitle">Select all that describe your bedroom at night</p>
+                <div class="options-grid">
+                    <div class="option-card env-card" data-value="dark_room">
+                        <div class="icon">🌑</div>
+                        <span>Very dark room</span>
+                    </div>
+                    <div class="option-card env-card" data-value="quiet_room">
+                        <div class="icon">🤫</div>
+                        <span>Quiet / white noise</span>
+                    </div>
+                    <div class="option-card env-card" data-value="cool_room">
+                        <div class="icon">❄️</div>
+                        <span>Cool temperature</span>
+                    </div>
+                    <div class="option-card env-card" data-value="light_leak">
+                        <div class="icon">💡</div>
+                        <span>Light leaks in</span>
+                    </div>
+                    <div class="option-card env-card" data-value="noisy">
+                        <div class="icon">🔊</div>
+                        <span>Noisy area</span>
+                    </div>
+                    <div class="option-card env-card" data-value="warm_room">
+                        <div class="icon">🥵</div>
+                        <span>Too warm</span>
+                    </div>
                 </div>
                 <div class="actions split">
                     <button class="btn btn-secondary prev-btn" data-prev="4">Back</button>
-                    <button class="btn btn-primary" id="analyze-btn">Analyze My Sleep</button>
+                    <button class="btn btn-primary next-btn" data-next="6">Next Step</button>
+                </div>
+            </div>
+
+            <!-- Step 6: Napping Habits -->
+            <div class="step" id="step-6">
+                <h2>Do you nap during the day? 😴</h2>
+                <p class="subtitle">Napping can help or hurt — depending on when and how long</p>
+                <div class="input-group">
+                    <label for="napFrequency">
+                        <span class="label-icon">📅</span>
+                        How often do you nap?
+                    </label>
+                    <select id="napFrequency" class="styled-input">
+                        <option value="never">Never</option>
+                        <option value="rarely">Rarely (1-2x/week)</option>
+                        <option value="sometimes">Sometimes (3-4x/week)</option>
+                        <option value="daily">Almost every day</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="napDuration">
+                        <span class="label-icon">⏱️</span>
+                        Typical nap length
+                    </label>
+                    <select id="napDuration" class="styled-input">
+                        <option value="short">Under 20 minutes (power nap)</option>
+                        <option value="medium">20–45 minutes</option>
+                        <option value="long">45–90 minutes</option>
+                        <option value="very_long">Over 90 minutes</option>
+                    </select>
+                </div>
+                <div class="actions split">
+                    <button class="btn btn-secondary prev-btn" data-prev="5">Back</button>
+                    <button class="btn btn-primary next-btn" data-next="7">Next Step</button>
+                </div>
+            </div>
+
+            <!-- Step 7: Social Jet Lag -->
+            <div class="step" id="step-7">
+                <h2>Weekend vs. weekday sleep ✈️</h2>
+                <p class="subtitle">"Social jet lag" is one of the most underrated sleep disruptors</p>
+                <div class="input-group">
+                    <label for="weekendShift">
+                        <span class="label-icon">📊</span>
+                        On weekends, I typically sleep in…
+                    </label>
+                    <select id="weekendShift" class="styled-input">
+                        <option value="same">About the same as weekdays</option>
+                        <option value="30min">~30 minutes later</option>
+                        <option value="1hr">~1 hour later</option>
+                        <option value="2hr">~2 hours later</option>
+                        <option value="3hr_plus">3+ hours later</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="weekendBedtime">
+                        <span class="label-icon">🌃</span>
+                        On weekends, I go to bed…
+                    </label>
+                    <select id="weekendBedtime" class="styled-input">
+                        <option value="same">About the same time</option>
+                        <option value="1hr_later">~1 hour later</option>
+                        <option value="2hr_later">~2 hours later</option>
+                        <option value="3hr_later">3+ hours later</option>
+                    </select>
+                </div>
+                <div class="actions split">
+                    <button class="btn btn-secondary prev-btn" data-prev="6">Back</button>
+                    <button class="btn btn-primary next-btn" data-next="8">Next Step</button>
+                </div>
+            </div>
+
+            <!-- Step 8: Health & Lifestyle -->
+            <div class="step" id="step-8">
+                <h2>Health & Lifestyle 💪</h2>
+                <p class="subtitle">These factors significantly influence your sleep quality</p>
+                <div class="input-group">
+                    <label for="stressLevel">
+                        <span class="label-icon">😰</span>
+                        Daily Stress Level (1-10)
+                    </label>
+                    <input type="range" id="stressLevel" min="1" max="10" value="5" class="styled-slider">
+                    <div class="slider-value" id="stressValue" style="font-size:1.5rem;">5</div>
+                </div>
+                <div class="input-group">
+                    <label for="physicalActivity">
+                        <span class="label-icon">🏃</span>
+                        Physical Activity (minutes/day)
+                    </label>
+                    <input type="number" id="physicalActivity" value="30" class="styled-input" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="bmiCategory">
+                        <span class="label-icon">⚖️</span>
+                        BMI Category
+                    </label>
+                    <select id="bmiCategory" class="styled-input">
+                        <option value="Normal">Normal</option>
+                        <option value="Overweight">Overweight</option>
+                        <option value="Obese">Obese</option>
+                    </select>
+                </div>
+                <div class="actions split">
+                    <button class="btn btn-secondary prev-btn" data-prev="7">Back</button>
+                    <button class="btn btn-primary next-btn" data-next="9">Next Step</button>
+                </div>
+            </div>
+
+            <!-- Step 9: Sleep Continuity -->
+            <div class="step" id="step-9">
+                <h2>Last one — sleep continuity 🧪</h2>
+                <p class="subtitle">The final pieces for a complete picture</p>
+                <div class="input-group">
+                    <label for="sleepLatency">
+                        <span class="label-icon">⏱️</span>
+                        Minutes to fall asleep
+                    </label>
+                    <input type="number" id="sleepLatency" value="15" class="styled-input" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="waso">
+                        <span class="label-icon">👀</span>
+                        Minutes awake during the night
+                    </label>
+                    <input type="number" id="waso" value="0" class="styled-input" min="0">
+                </div>
+                <div class="actions split">
+                    <button class="btn btn-secondary prev-btn" data-prev="8">Back</button>
+                    <button class="btn btn-primary" id="analyze-btn">
+                        <span>Analyze My Sleep</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </button>
                 </div>
             </div>
         </section>
 
         <!-- Loading Section -->
-        <section id="loading-section" class="glass-card hidden">
+        <section id="loading-section" class="card hidden">
             <div class="loader">
-                <div class="spinner"></div>
-                <h2>Analyzing your habits...</h2>
-                <p>Consulting our sleep science database</p>
+                <div class="loading-animation">
+                    <div class="pulse-ring"></div>
+                    <div class="pulse-ring delay-1"></div>
+                    <div class="pulse-ring delay-2"></div>
+                    <svg class="loading-moon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </div>
+                <h2>Crunching your sleep data...</h2>
+                <p>Consulting 10+ research datasets</p>
             </div>
         </section>
 
         <!-- Results Section -->
-        <section id="results-section" class="glass-card hidden results-container">
+        <section id="results-section" class="card hidden results-container">
             <div class="results-header">
-                <h1>Your Sleep Profile</h1>
-                <div class="score-circle">
-                    <div class="score-value" id="finalScore">--</div>
-                    <span>/100</span>
+                <div class="results-header-text">
+                    <p class="results-label">Your Sleep Profile</p>
+                    <h1>Here's what we found</h1>
+                </div>
+                <div class="score-ring-wrapper">
+                    <svg class="score-ring" viewBox="0 0 120 120">
+                        <circle class="score-ring-bg" cx="60" cy="60" r="52" />
+                        <circle class="score-ring-fill" cx="60" cy="60" r="52" id="scoreRing" />
+                    </svg>
+                    <div class="score-ring-text">
+                        <span class="score-value" id="finalScore">--</span>
+                        <span class="score-label">/100</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Metrics Summary Grid -->
             <div class="metrics-grid" id="metricsGrid">
                 <div class="metric-tile">
+                    <div class="metric-icon-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
                     <span class="metric-label">Sleep Duration</span>
                     <span class="metric-value" id="metricDuration">--</span>
                     <span class="metric-unit">hours</span>
                 </div>
                 <div class="metric-tile">
+                    <div class="metric-icon-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </div>
                     <span class="metric-label">Sleep Efficiency</span>
                     <span class="metric-value" id="metricEfficiency">--</span>
                     <span class="metric-unit">%</span>
                 </div>
                 <div class="metric-tile">
+                    <div class="metric-icon-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
                     <span class="metric-label">Time to Fall Asleep</span>
                     <span class="metric-value" id="metricSOL">--</span>
                     <span class="metric-unit">min</span>
                 </div>
                 <div class="metric-tile">
+                    <div class="metric-icon-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
                     <span class="metric-label">Night Waketime</span>
                     <span class="metric-value" id="metricWASO">--</span>
                     <span class="metric-unit">min</span>
@@ -194,20 +487,29 @@
             </div>
 
             <!-- Personalized Advice -->
-            <h2 class="section-title">Personalized Advice</h2>
+            <h2 class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                Personalized Advice
+            </h2>
             <div class="advice-list" id="adviceList">
                 <!-- Dynamically populated -->
             </div>
 
             <!-- Did You Know? -->
-            <h2 class="section-title">Did You Know?</h2>
+            <h2 class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                Did You Know?
+            </h2>
             <div class="facts-list" id="factsList">
                 <!-- Dynamically populated -->
             </div>
 
             <!-- References & Data Sources -->
             <div class="data-sources">
-                <h3>References & Data Sources</h3>
+                <h3>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    References & Data Sources
+                </h3>
                 <ol class="citations-list">
                     <li>
                         <strong>National Sleep Foundation.</strong> "Sleep Facts & Statistics."
@@ -255,10 +557,18 @@
             </div>
 
             <div class="actions center">
-                <button class="btn btn-secondary" id="restart-btn">Start Over</button>
+                <button class="btn btn-secondary" id="restart-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                    Start Over
+                </button>
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>Made with 💤 by <strong>Lumina</strong> · Data stays in your browser · <a href="DATA_SOURCES.md">Sources</a></p>
+    </footer>
 
     <script src="data.js"></script>
     <script src="app.js"></script>
