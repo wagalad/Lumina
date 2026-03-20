@@ -591,12 +591,12 @@ h1, h2 {
     letter-spacing: -0.025em;
 }
 
-h2 { font-size: 1.2rem; line-height: 1.25; }
+h2 { font-size: 1.45rem; line-height: 1.25; }
 
 .subtitle {
     color: var(--text-secondary);
-    font-size: 0.84rem;
-    margin-top: -0.25rem;
+    font-size: 0.92rem;
+    margin-top: -0.15rem;
     font-weight: 400;
 }
 
@@ -723,8 +723,8 @@ h2 { font-size: 1.2rem; line-height: 1.25; }
 
 .styled-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: #fff;
     cursor: pointer;
@@ -752,7 +752,7 @@ h2 { font-size: 1.2rem; line-height: 1.25; }
 
 .slider-value {
     font-family: var(--font);
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 700;
     color: var(--text-heading);
     margin-top: 0.15rem;
@@ -764,7 +764,7 @@ h2 { font-size: 1.2rem; line-height: 1.25; }
 .slider-labels {
     display: flex;
     justify-content: space-between;
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     color: var(--text-tertiary);
     font-weight: 500;
     padding: 0 0.25rem;
@@ -781,7 +781,7 @@ h2 { font-size: 1.2rem; line-height: 1.25; }
 }
 
 .input-group label {
-    font-size: 0.78rem;
+    font-size: 0.88rem;
     font-weight: 500;
     color: var(--text-secondary);
     letter-spacing: 0.01em;
@@ -799,11 +799,11 @@ h2 { font-size: 1.2rem; line-height: 1.25; }
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 0.5px solid var(--border);
-    padding: 0.65rem 0.85rem;
+    padding: 0.75rem 0.95rem;
     border-radius: var(--radius-sm);
     color: var(--text-primary);
     font-family: var(--font);
-    font-size: 0.88rem;
+    font-size: 0.95rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
@@ -859,7 +859,7 @@ select.styled-input { cursor: pointer; }
     -webkit-backdrop-filter: blur(16px) saturate(150%);
     border: 0.5px solid var(--glass-border);
     border-radius: var(--radius-lg);
-    padding: 1rem 0.65rem;
+    padding: 1.15rem 0.75rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.25s var(--ease);
@@ -900,10 +900,10 @@ select.styled-input { cursor: pointer; }
     justify-content: center;
 }
 
-.option-card .icon { font-size: 1.4rem; }
+.option-card .icon { font-size: 1.6rem; }
 
 .option-card span {
-    font-size: 0.74rem;
+    font-size: 0.82rem;
     font-weight: 500;
     color: var(--text-secondary);
     line-height: 1.25;
@@ -925,11 +925,11 @@ select.styled-input { cursor: pointer; }
 .actions.center { justify-content: center; }
 
 .btn {
-    padding: 0.62rem 1.3rem;
+    padding: 0.72rem 1.5rem;
     border-radius: var(--radius-sm);
     font-family: var(--font);
     font-weight: 500;
-    font-size: 0.84rem;
+    font-size: 0.92rem;
     cursor: pointer;
     transition: all 0.2s var(--ease);
     border: none;
