@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = document.documentElement;
 
     // Load saved theme or default to dark
-    const savedTheme = localStorage.getItem('lumina-theme') || 'light';
+    const savedTheme = localStorage.getItem('lumina-theme') || 'dark';
     html.setAttribute('data-theme', savedTheme);
 
     if (themeToggle) {
