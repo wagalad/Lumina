@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,14 @@
 </head>
 <body>
 
-    <!-- Floating particles background -->
+    <!-- Animated liquid orb background -->
+    <div class="liquid-bg" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <!-- Floating particles background (legacy) -->
     <div class="particles" id="particles" aria-hidden="true"></div>
 
     <!-- ===== NAVBAR ===== -->
@@ -440,6 +447,13 @@
                 </div>
                 <div class="score-ring-wrapper">
                     <svg class="score-ring" viewBox="0 0 120 120">
+                        <defs>
+                            <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00D4FF"/>
+                                <stop offset="50%" stop-color="#4F7FFF"/>
+                                <stop offset="100%" stop-color="#9B6FFF"/>
+                            </linearGradient>
+                        </defs>
                         <circle class="score-ring-bg" cx="60" cy="60" r="52" />
                         <circle class="score-ring-fill" cx="60" cy="60" r="52" id="scoreRing" />
                     </svg>
