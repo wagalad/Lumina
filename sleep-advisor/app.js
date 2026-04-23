@@ -174,19 +174,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // Helper — positions the value label directly under the slider thumb
+    function syncSliderLabel(slider, labelEl) {
+        const min    = parseFloat(slider.min)   || 0;
+        const max    = parseFloat(slider.max)   || 10;
+        const val    = parseFloat(slider.value);
+        const pct    = (val - min) / (max - min);
+        const thumbW = 26; // matches CSS thumb width
+        // calc() keeps it accurate regardless of container width
+        labelEl.style.left = `calc(${pct * 100}% + ${thumbW / 2 - pct * thumbW}px)`;
+    }
+
     // 1. Sliders
     qualitySlider.addEventListener('input', (e) => {
         const val = parseInt(e.target.value, 10);
         qualityValue.textContent = val;
         state.data.quality = val;
+        syncSliderLabel(qualitySlider, qualityValue);
     });
+    // Sync on page load so initial position is correct
+    syncSliderLabel(qualitySlider, qualityValue);
 
     if (stressSlider) {
         stressSlider.addEventListener('input', (e) => {
             const val = parseInt(e.target.value, 10);
             stressValue.textContent = val;
             state.data.stressLevel = val;
+            syncSliderLabel(stressSlider, stressValue);
         });
+        syncSliderLabel(stressSlider, stressValue);
     }
 
     // 2. Navigation Buttons

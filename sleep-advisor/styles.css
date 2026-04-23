@@ -884,9 +884,16 @@ h2 { font-size: 1.5rem; line-height: 1.22; }
     box-shadow: 0 0 0 3px var(--ring), 0 0 14px var(--primary-glow);
 }
 
-.slider-container { text-align: center; }
+.slider-container {
+    position: relative;
+    padding-bottom: 4.5rem; /* room for the floating value */
+}
 
 .slider-value {
+    position: absolute;
+    top: 2.2rem; /* just below the thumb */
+    left: 50%;   /* JS overrides this to track the thumb */
+    transform: translateX(-50%);
     font-size: 3.5rem;
     font-weight: 700;
     color: var(--text-heading);
