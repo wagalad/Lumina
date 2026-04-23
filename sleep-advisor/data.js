@@ -490,12 +490,6 @@ function analyzeSleepData(userData) {
         {
             minScore: 0, maxScore: 30,
             type: 'warning',
-            title: 'Audit Your Medications',
-            text: 'Many common medications silently disrupt sleep: beta-blockers reduce melatonin, SSRIs suppress REM sleep, decongestants act as stimulants, and corticosteroids elevate cortisol. If you take any prescription or OTC medications regularly, review their sleep side effects with your doctor — a simple timing change can dramatically improve quality.'
-        },
-        {
-            minScore: 0, maxScore: 30,
-            type: 'warning',
             title: 'Consider a Formal Sleep Study',
             text: 'Your sleep profile shows disruption across multiple dimensions. A polysomnography (PSG) sleep study — the gold standard — can detect sleep apnea, periodic limb movement disorder, and REM behavior disorder that self-reported data can\'t catch. Ask your doctor for a referral; many are now available as at-home tests.'
         },
