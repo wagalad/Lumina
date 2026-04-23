@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentStep: 1,
         totalSteps: 9,
         data: {
-            quality: 5,
+            quality: 50,
             bedTime: '23:00',
             wakeTime: '07:00',
             irregularSchedule: false,
@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const steps = document.querySelectorAll('.step');
     const progressBar = document.getElementById('progress-bar');
     const qualitySlider = document.getElementById('sleepQuality');
-    const qualityValue = document.getElementById('qualityValue');
     const bedTimeInput = document.getElementById('bedTime');
     const wakeTimeInput = document.getElementById('wakeTime');
     const irregularScheduleCheckbox = document.getElementById('irregularSchedule');
@@ -187,13 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Sliders
     qualitySlider.addEventListener('input', (e) => {
-        const val = parseInt(e.target.value, 10);
-        qualityValue.textContent = val;
-        state.data.quality = val;
-        syncSliderLabel(qualitySlider, qualityValue);
+        state.data.quality = parseInt(e.target.value, 10);
     });
-    // Sync on page load so initial position is correct
-    syncSliderLabel(qualitySlider, qualityValue);
 
     if (stressSlider) {
         stressSlider.addEventListener('input', (e) => {

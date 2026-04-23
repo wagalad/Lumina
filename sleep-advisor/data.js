@@ -3,21 +3,21 @@
 const sleepAdviceDB = [
     {
         id: 'quality_low',
-        condition: (data) => data.quality <= 4,
+        condition: (data) => data.quality <= 40,
         type: 'warning',
         title: 'Focus on Sleep Environment',
         text: (data) => 'Your reported sleep quality is quite low. Start by optimizing your bedroom: keep it completely dark, quiet, and cool (around 65°F / 18°C).'
     },
     {
         id: 'quality_med',
-        condition: (data) => data.quality > 4 && data.quality <= 7,
+        condition: (data) => data.quality > 40 && data.quality <= 70,
         type: 'info',
         title: 'Room for Improvement',
         text: (data) => 'Your sleep quality is average. Small adjustments to your evening routine could make a significant difference in how refreshed you feel.'
     },
     {
         id: 'quality_high',
-        condition: (data) => data.quality > 7,
+        condition: (data) => data.quality > 70,
         type: 'success',
         title: 'Great Baseline',
         text: (data) => 'You maintain good sleep quality! Keep up your current core habits while fine-tuning the edges.'
@@ -111,7 +111,7 @@ const sleepAdviceDB = [
     // ---- NSRR / SHHS Insights ----
     {
         id: 'nsrr_cardiovascular',
-        condition: (data) => data.quality <= 5 && data.durationHours < 7,
+        condition: (data) => data.quality <= 50 && data.durationHours < 7,
         type: 'warning',
         title: 'Cardiovascular Risk from Poor Sleep (NSRR/SHHS)',
         text: (data) => 'The Sleep Heart Health Study (SHHS), tracking 6,441 participants, found that short sleep duration combined with poor quality is strongly associated with increased risk of coronary heart disease, stroke, and hypertension. Prioritizing 7+ hours of quality sleep is a protective cardiovascular measure.'
@@ -126,7 +126,7 @@ const sleepAdviceDB = [
     // ---- HSP / BDSP Insights ----
     {
         id: 'hsp_neuro',
-        condition: (data) => data.quality <= 4 && data.stressLevel >= 7,
+        condition: (data) => data.quality <= 40 && data.stressLevel >= 7,
         type: 'warning',
         title: 'Neurological Health & Sleep (HSP/BDSP)',
         text: (data) => 'Research from the Human Sleep Project (26,200+ PSG studies, Massachusetts General Hospital) shows that chronic poor sleep quality combined with high stress is associated with accelerated \'brain aging\' and increased risk of cerebrovascular disease and Alzheimer\'s. Improving sleep may serve as a neuroprotective intervention.'
@@ -141,7 +141,7 @@ const sleepAdviceDB = [
     // ---- SleepFM / Nature Medicine Insights ----
     {
         id: 'sleepfm_disease',
-        condition: (data) => data.quality <= 3,
+        condition: (data) => data.quality <= 30,
         type: 'warning',
         title: 'Sleep as a Disease Predictor (SleepFM, Nature Medicine 2026)',
         text: (data) => 'A landmark 2026 study in Nature Medicine found that a single night of sleep data can predict 130+ future health conditions, including dementia (C-Index 0.85), heart failure (0.80), and chronic kidney disease (0.79). Very poor sleep quality is not just an inconvenience — it\'s a clinical signal. Discuss your sleep with a healthcare provider.'
@@ -163,7 +163,7 @@ const sleepAdviceDB = [
     },
     {
         id: 'sleepfounder_cardio',
-        condition: (data) => data.quality <= 5 && data.stressLevel >= 6 && data.physicalActivity < 30,
+        condition: (data) => data.quality <= 50 && data.stressLevel >= 6 && data.physicalActivity < 30,
         type: 'info',
         title: 'Cardiorespiratory Signals & Health (SleepFounder Research)',
         text: (data) => 'The SleepFounder model (medRxiv 2025) showed that heartbeat and respiratory patterns during sleep predict heart failure (AUROC 0.88), high cholesterol (0.83), and coronary heart disease (0.81). Poor sleep quality, high stress, and low activity together amplify cardiovascular risk. Improving any one factor can help.'
@@ -303,7 +303,7 @@ function analyzeSleepData(userData) {
     // 4. Calculate Score (Base 100)
     // --- Quality Component (max 30 pts) ---
     // Uses a curve so mid-range quality (5-7) still earns decent points
-    const qualityNorm = userData.quality / 10; // 0 to 1
+    const qualityNorm = userData.quality / 100; // 0 to 1
     const qualityScore = Math.round(30 * Math.pow(qualityNorm, 0.7));
 
     // --- Duration Component (max 22 pts) ---
