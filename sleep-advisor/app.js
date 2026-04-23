@@ -391,12 +391,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })();
 
-    // ── 6. SCROLL-REVEAL (IntersectionObserver) ─────────
+    // ── 6. SCROLL-REVEAL (IntersectionObserver — bidirectional) ──
     const revealIO = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('visible');
-            revealIO.unobserve(entry.target);
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            } else {
+                // Remove so it re-animates next time it scrolls back into view
+                entry.target.classList.remove('visible');
+            }
         });
     }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
 
@@ -461,15 +464,34 @@ document.addEventListener('DOMContentLoaded', () => {
         io.observe(bar);
     })();
 
-    // ── 9. SCROLL PROGRESS BAR (top edge) ───────────────
-    (function initScrollProgress() {
-        const bar = document.createElement('div');
-        bar.className = 'scroll-progress';
-        document.body.prepend(bar);
+    // ── 9. FLOATING SCROLL RING (bottom-right corner) ───
+    (function initScrollRing() {
+        const SIZE  = 48;
+        const R     = 18;
+        const CIRC  = 2 * Math.PI * R; // 113.1
+
+        const wrap = document.createElement('div');
+        wrap.className = 'scroll-ring-wrap';
+        wrap.innerHTML = `
+          <svg class="scroll-ring-svg" width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}">
+            <circle class="scroll-ring-bg"   cx="${SIZE/2}" cy="${SIZE/2}" r="${R}"/>
+            <circle class="scroll-ring-fill" cx="${SIZE/2}" cy="${SIZE/2}" r="${R}"
+                    stroke-dasharray="${CIRC}" stroke-dashoffset="${CIRC}"/>
+          </svg>
+          <span class="scroll-ring-pct">0%</span>
+        `;
+        document.body.appendChild(wrap);
+
+        const fill = wrap.querySelector('.scroll-ring-fill');
+        const label = wrap.querySelector('.scroll-ring-pct');
+
         window.addEventListener('scroll', () => {
             const scrollable = document.body.scrollHeight - window.innerHeight;
-            const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
-            bar.style.width = `${Math.min(pct, 100)}%`;
+            const pct = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
+            fill.style.strokeDashoffset = CIRC - CIRC * pct;
+            label.textContent = Math.round(pct * 100) + '%';
+            // Show only when scrolled past hero
+            wrap.style.opacity = window.scrollY > 80 ? '1' : '0';
         }, { passive: true });
     })();
 

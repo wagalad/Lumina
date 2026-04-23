@@ -12,6 +12,16 @@
 </head>
 <body>
 
+    <!-- Global SVG gradient defs (reused by scroll ring) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <linearGradient id="scrollRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#1D4ED8"/>
+                <stop offset="100%" stop-color="#7DD3FC"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
     <!-- Animated liquid orb background -->
     <div class="liquid-bg" aria-hidden="true">
         <div class="orb orb-1"></div>
@@ -450,9 +460,9 @@
                     <svg class="score-ring" viewBox="0 0 120 120">
                         <defs>
                             <linearGradient id="ringGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                                <stop offset="0%"   stop-color="#5B6FFF"/>
-                                <stop offset="45%"  stop-color="#A855F7"/>
-                                <stop offset="100%" stop-color="#EC4899"/>
+                                <stop offset="0%"   stop-color="#1D4ED8"/>
+                                <stop offset="50%"  stop-color="#3B82F6"/>
+                                <stop offset="100%" stop-color="#7DD3FC"/>
                             </linearGradient>
                         </defs>
                         <circle class="score-ring-bg" cx="60" cy="60" r="52" />
