@@ -73,6 +73,13 @@ const sleepAdviceDB = [
     },
     // ---- Kaggle Dataset Insights ----
     {
+        id: 'stress_moderate',
+        condition: (data) => data.stressLevel >= 4 && data.stressLevel < 7,
+        type: 'info',
+        title: 'Moderate Stress Quietly Eroding Sleep',
+        text: (data) => 'Moderate daily stress raises evening cortisol, delaying your natural melatonin rise. A 10-minute wind-down routine — journaling, stretching, or slow breathing — can lower cortisol enough to measurably improve how quickly you fall asleep.'
+    },
+    {
         id: 'kaggle_stress',
         condition: (data) => data.stressLevel >= 7,
         type: 'warning',
@@ -95,11 +102,25 @@ const sleepAdviceDB = [
     },
     // ---- Sleep Research Society (SRS) Insights ----
     {
+        id: 'srs_sol_mild',
+        condition: (data) => data.sleepLatency > 20 && data.sleepLatency <= 30,
+        type: 'info',
+        title: 'Slightly Elevated Sleep Onset',
+        text: (data) => `Taking ${data.sleepLatency} minutes to fall asleep is above the optimal 10–20 minute range. This often signals mild hyperarousal — your brain is still in "alert" mode. Try dimming all lights 45 minutes before bed and avoiding stimulating content or conversations in that window.`
+    },
+    {
         id: 'srs_sol',
         condition: (data) => data.sleepLatency > 30,
         type: 'warning',
         title: 'Prolonged Sleep Onset (SRS Actigraphy Data)',
         text: (data) => `Taking ${data.sleepLatency} minutes to fall asleep indicates prolonged Sleep Onset Latency (SOL). Make sure your bedroom is cool, and avoid forcing sleep. If you can't sleep after 20 minutes, get out of bed and do a relaxing activity.`
+    },
+    {
+        id: 'srs_waso_mild',
+        condition: (data) => data.waso > 15 && data.waso <= 30,
+        type: 'info',
+        title: 'Mild Sleep Fragmentation',
+        text: (data) => `Being awake ${data.waso} minutes during the night suggests mild fragmentation. Common culprits: ambient noise, light leaks, or a warm bedroom. Avoiding liquids in the 2 hours before bed can also reduce bathroom-related awakenings.`
     },
     {
         id: 'srs_waso',
@@ -395,7 +416,10 @@ function analyzeSleepData(userData) {
     deductions = Math.min(deductions, 42);
 
     let score = qualityScore + durationScore + scheduleScore + envScore + baselineBonus - deductions;
-    
+
+    // Normalize to true 0–100 scale (raw max is 82: 30+22+8+10+12)
+    score = Math.round(score * (100 / 82));
+
     // Ensure bounds
     score = Math.max(10, Math.min(100, score));
 
@@ -455,6 +479,61 @@ function analyzeSleepData(userData) {
             type: 'warning',
             title: 'Seek Professional Help',
             text: 'A consistently low sleep score may indicate an underlying sleep disorder such as insomnia, sleep apnea, or restless leg syndrome. Consider consulting a sleep specialist or asking your doctor about a sleep study for a proper diagnosis.'
+        },
+        // ---- Additional advice for low scorers ----
+        {
+            minScore: 0, maxScore: 30,
+            type: 'warning',
+            title: 'The Two-Week Sleep Reset',
+            text: 'For severely disrupted sleep, a structured reset outperforms isolated tips: (1) Set one fixed wake time every day — no exceptions. (2) Only go to bed when genuinely sleepy. (3) If awake in bed >20 min, get up and do something calm until sleepy. (4) No naps. Done consistently for 2 weeks, this rebuilds sleep pressure and resets your drive to sleep.'
+        },
+        {
+            minScore: 0, maxScore: 30,
+            type: 'warning',
+            title: 'Audit Your Medications',
+            text: 'Many common medications silently disrupt sleep: beta-blockers reduce melatonin, SSRIs suppress REM sleep, decongestants act as stimulants, and corticosteroids elevate cortisol. If you take any prescription or OTC medications regularly, review their sleep side effects with your doctor — a simple timing change can dramatically improve quality.'
+        },
+        {
+            minScore: 0, maxScore: 30,
+            type: 'warning',
+            title: 'Consider a Formal Sleep Study',
+            text: 'Your sleep profile shows disruption across multiple dimensions. A polysomnography (PSG) sleep study — the gold standard — can detect sleep apnea, periodic limb movement disorder, and REM behavior disorder that self-reported data can\'t catch. Ask your doctor for a referral; many are now available as at-home tests.'
+        },
+        {
+            minScore: 0, maxScore: 40,
+            type: 'warning',
+            title: 'Eliminate Caffeine for 30 Days',
+            text: 'If sleep is severely disrupted, a full caffeine elimination (not just cutting back) for 30 days can reveal your true baseline. Many people are surprised how much better they sleep after complete adenosine receptor recovery. Expect withdrawal headaches on days 2–4, then noticeable improvement by week 2.'
+        },
+        {
+            minScore: 0, maxScore: 40,
+            type: 'info',
+            title: 'Try a Body Scan Meditation',
+            text: 'Body scan meditation — systematically relaxing each muscle group from toes to head — is one of the most evidence-backed techniques for reducing sleep onset latency. Research shows a 10-minute body scan can be as effective as low-dose sleep medication for chronic insomnia, with no side effects. Free guided sessions are available on Insight Timer.'
+        },
+        {
+            minScore: 0, maxScore: 50,
+            type: 'info',
+            title: 'The 10-3-2-1-0 Rule',
+            text: 'A simple framework that stacks small wins: 10 hours before bed — last caffeine. 3 hours before — last food or alcohol. 2 hours before — stop work. 1 hour before — all screens off. 0 times to hit snooze in the morning. Each step independently improves sleep; together they compound into a significantly faster and deeper night.'
+        },
+        {
+            minScore: 0, maxScore: 50,
+            type: 'info',
+            title: 'Fix Your Wake Time Before Your Bedtime',
+            text: 'Don\'t start by trying to go to bed earlier — that rarely works. Instead, lock in a fixed wake time and hold it for 2 weeks, even on weekends, even if you slept badly. A consistent wake time is the strongest anchor for your circadian rhythm. A natural, earlier bedtime will follow automatically once your sleep pressure builds properly.'
+        },
+        {
+            minScore: 0, maxScore: 55,
+            type: 'info',
+            title: 'Lower Your Room Temperature Tonight',
+            text: 'Your core body temperature must drop 1–2°F to initiate sleep. A cooler bedroom directly accelerates this. The research-backed sweet spot is 65–68°F (18–20°C). If you can only do one thing tonight, this is it — it\'s one of the fastest single-night improvements available to you.'
+        },
+        {
+            minScore: 0, maxScore: 55,
+            type: 'info',
+            title: 'Get Bright Light in the Morning',
+            text: '10–15 minutes of natural sunlight within the first hour of waking suppresses lingering melatonin and triggers a precisely-timed cortisol pulse. This resets your circadian clock so melatonin rises again 14–16 hours later — making it easier to fall asleep at the right time. On cloudy days, a 10,000-lux light therapy lamp achieves the same effect.'
         }
     ];
 
