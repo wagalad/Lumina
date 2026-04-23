@@ -292,23 +292,229 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.reload();
     });
 
+    // ====================================================
+    // ANIMATION ENGINE — Headspace-inspired
+    // ====================================================
+
+    // ── 1. FLOATING STAR PARTICLES ──────────────────────
+    (function spawnStars() {
+        const container = document.querySelector('.liquid-bg');
+        if (!container) return;
+        for (let i = 0; i < 55; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size   = Math.random() * 2.5 + 0.8;
+            const startX = Math.random() * 100;
+            const dur    = Math.random() * 18 + 12;
+            const delay  = Math.random() * 20;
+            const drift  = (Math.random() - 0.5) * 120;
+            star.style.cssText = `
+                left:${startX}%;
+                bottom:-10px;
+                width:${size}px;
+                height:${size}px;
+                --drift:${drift}px;
+                animation-duration:${dur}s;
+                animation-delay:-${delay}s;
+                opacity:${Math.random() * 0.5 + 0.15};
+            `;
+            container.appendChild(star);
+        }
+    })();
+
+    // ── 2. CURSOR GLOW TRAIL ────────────────────────────
+    (function initCursorGlow() {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        const glow = document.createElement('div');
+        glow.className = 'cursor-glow';
+        document.body.appendChild(glow);
+        let mx = 0, my = 0, gx = 0, gy = 0;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        (function loop() {
+            gx += (mx - gx) * 0.07;
+            gy += (my - gy) * 0.07;
+            glow.style.transform = `translate(${gx}px,${gy}px)`;
+            requestAnimationFrame(loop);
+        })();
+    })();
+
+    // ── 3. MAGNETIC BUTTONS ─────────────────────────────
+    (function initMagnetic() {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        document.querySelectorAll('.btn-cta, .btn-primary').forEach(btn => {
+            btn.addEventListener('mousemove', e => {
+                const r = btn.getBoundingClientRect();
+                const x = (e.clientX - r.left - r.width  / 2) * 0.28;
+                const y = (e.clientY - r.top  - r.height / 2) * 0.28;
+                btn.style.transform = `translate(${x}px,${y}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
+                btn.style.transform  = '';
+                setTimeout(() => { btn.style.transition = ''; }, 560);
+            });
+            btn.addEventListener('mouseenter', () => { btn.style.transition = 'transform 0.12s ease'; });
+        });
+    })();
+
+    // ── 4. 3D CARD TILT ─────────────────────────────────
+    (function initTilt() {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        document.querySelectorAll('.feature-card, .metric-tile').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width  - 0.5;
+                const y = (e.clientY - r.top)  / r.height - 0.5;
+                card.style.transform = `perspective(700px) rotateX(${-y * 9}deg) rotateY(${x * 9}deg) translateZ(6px) translateY(-2px)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transition = 'transform 0.65s cubic-bezier(0.34,1.56,0.64,1)';
+                card.style.transform  = '';
+                setTimeout(() => { card.style.transition = ''; }, 660);
+            });
+            card.addEventListener('mouseenter', () => { card.style.transition = 'transform 0.12s ease'; });
+        });
+    })();
+
+    // ── 5. RIPPLE ON BUTTONS ────────────────────────────
+    (function initRipple() {
+        document.querySelectorAll('.btn, .btn-cta').forEach(btn => {
+            btn.addEventListener('click', e => {
+                const r    = btn.getBoundingClientRect();
+                const size = Math.max(r.width, r.height) * 2;
+                const dot  = document.createElement('span');
+                dot.className = 'ripple';
+                dot.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px`;
+                btn.appendChild(dot);
+                setTimeout(() => dot.remove(), 700);
+            });
+        });
+    })();
+
+    // ── 6. SCROLL-REVEAL (IntersectionObserver) ─────────
+    const revealIO = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('visible');
+            revealIO.unobserve(entry.target);
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+
+    function registerScrollAnimations() {
+        document.querySelectorAll('.animate-up:not(.visible)').forEach(el => revealIO.observe(el));
+    }
+
+    // Tag static homepage elements for scroll reveal
+    ['.hero-badge', '.hero-sub', '.feature-card', '.trust-stat',
+     '.section-title', '.data-sources', '.site-footer p'].forEach(sel => {
+        document.querySelectorAll(sel).forEach((el, i) => {
+            el.classList.add('animate-up');
+            el.style.transitionDelay = `${i * 0.09}s`;
+        });
+    });
+    registerScrollAnimations();
+
+    // ── 7. HERO HEADLINE — word-by-word reveal ──────────
+    (function animateHero() {
+        const headline = document.querySelector('.hero-headline');
+        if (!headline) return;
+        Array.from(headline.childNodes).forEach((node, idx) => {
+            if (node.nodeType !== Node.TEXT_NODE || !node.textContent.trim()) return;
+            const words = node.textContent.trim().split(/\s+/);
+            const frag  = document.createDocumentFragment();
+            words.forEach((w, i) => {
+                const span = document.createElement('span');
+                span.className = 'word-reveal';
+                span.style.animationDelay = `${0.05 + i * 0.12}s`;
+                span.textContent = w + '\u00A0';
+                frag.appendChild(span);
+            });
+            node.replaceWith(frag);
+        });
+        const grad = headline.querySelector('.gradient-text');
+        if (grad) { grad.classList.add('word-reveal'); grad.style.animationDelay = '0.30s'; }
+    })();
+
+    // ── 8. TRUST BAR — count-up on scroll ───────────────
+    (function initCountUp() {
+        const bar = document.querySelector('.trust-bar');
+        if (!bar) return;
+        const targets = [
+            { sel: '.trust-stat:nth-child(1) strong', end: 10,  suffix: '+' },
+            { sel: '.trust-stat:nth-child(3) strong', end: 800, suffix: 'K+' },
+            { sel: '.trust-stat:nth-child(5) strong', end: 9,   suffix: '' }
+        ];
+        const io = new IntersectionObserver(entries => {
+            if (!entries[0].isIntersecting) return;
+            io.disconnect();
+            targets.forEach(({ sel, end, suffix }) => {
+                const el = document.querySelector(sel);
+                if (!el) return;
+                let v = 0;
+                const id = setInterval(() => {
+                    v += end / 50;
+                    if (v >= end) { v = end; clearInterval(id); }
+                    el.textContent = Math.round(v) + suffix;
+                }, 20);
+            });
+        }, { threshold: 0.6 });
+        io.observe(bar);
+    })();
+
+    // ── 9. SCROLL PROGRESS BAR (top edge) ───────────────
+    (function initScrollProgress() {
+        const bar = document.createElement('div');
+        bar.className = 'scroll-progress';
+        document.body.prepend(bar);
+        window.addEventListener('scroll', () => {
+            const scrollable = document.body.scrollHeight - window.innerHeight;
+            const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+            bar.style.width = `${Math.min(pct, 100)}%`;
+        }, { passive: true });
+    })();
+
+    // ── 10. STAGGER METRIC TILES after results render ───
+    const _baseRender = renderResults;
+    function renderResults(r) {
+        _baseRender(r);
+        setTimeout(() => {
+            document.querySelectorAll('.metric-tile').forEach((tile, i) => {
+                tile.classList.add('animate-up');
+                tile.style.transitionDelay = `${i * 0.10}s`;
+            });
+            registerScrollAnimations();
+        }, 100);
+    }
+
     // ----------------------------------------------------
     // Functions
     // ----------------------------------------------------
 
     function goToStep(stepNum) {
         const currentActive = document.querySelector('.step.active');
+        const direction = stepNum > state.currentStep ? 'forward' : 'backward';
+
         if (currentActive) {
-            currentActive.classList.remove('active');
+            // Slide current step out in the appropriate direction
+            const exitClass = direction === 'forward' ? 'step-exit-left' : 'step-exit-right';
+            currentActive.classList.add(exitClass);
+            setTimeout(() => {
+                currentActive.classList.remove('active', exitClass);
+            }, 280);
         }
 
-        const newStep = document.getElementById(`step-${stepNum}`);
-        if (newStep) {
-            newStep.classList.add('active');
-            state.currentStep = stepNum;
-            updateProgressBar();
-            updateStepIndicator();
-        }
+        setTimeout(() => {
+            const newStep = document.getElementById(`step-${stepNum}`);
+            if (newStep) {
+                const enterClass = direction === 'forward' ? 'step-enter-right' : 'step-enter-left';
+                newStep.classList.add('active', enterClass);
+                // Remove enter class after animation completes
+                setTimeout(() => newStep.classList.remove(enterClass), 400);
+                state.currentStep = stepNum;
+                updateProgressBar();
+                updateStepIndicator();
+            }
+        }, 120);
     }
 
     function updateProgressBar() {
@@ -432,8 +638,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         combinedAdvice.forEach((item, i) => {
             const card = document.createElement('div');
-            card.className = `advice-card ${item.type}`;
-            card.style.animationDelay = `${i * 0.1}s`;
+            card.className = `advice-card ${item.type} animate-up`;
+            card.style.transitionDelay = `${i * 0.08}s`;
             
             const title = document.createElement('h3');
             title.textContent = item.title;
@@ -478,8 +684,8 @@ document.addEventListener('DOMContentLoaded', () => {
             factsListEl.innerHTML = '';
             selectedFacts.forEach((fact, i) => {
                 const card = document.createElement('div');
-                card.className = 'fact-card';
-                card.style.animationDelay = `${i * 0.15}s`;
+                card.className = 'fact-card animate-up';
+                card.style.transitionDelay = `${i * 0.10}s`;
                 // SECURITY: fact data is trusted, developer-authored HTML (hardcoded above).
                 // Do NOT use innerHTML with any user-supplied or external data.
                 card.innerHTML = `

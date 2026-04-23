@@ -1645,4 +1645,126 @@ select.styled-input { cursor: pointer; }
     border-radius: 3px;
 }
 
+/* ====================================================
+   ANIMATION ENGINE — Headspace-inspired
+   ==================================================== */
+
+/* ── Floating Stars ───────────────────────────────── */
+.star {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.75);
+    pointer-events: none;
+    animation: starFloat linear infinite;
+    will-change: transform, opacity;
+    box-shadow: 0 0 4px rgba(200, 180, 255, 0.5);
+}
+
+@keyframes starFloat {
+    0%   { transform: translateY(0)      translateX(0)          scale(1);   opacity: var(--star-op, 0.3); }
+    50%  { transform: translateY(-45vh)  translateX(var(--drift, 40px))  scale(1.2); opacity: calc(var(--star-op, 0.3) * 1.4); }
+    100% { transform: translateY(-100vh) translateX(calc(var(--drift, 40px) * 1.6)) scale(0.6); opacity: 0; }
+}
+
+/* ── Cursor Glow ──────────────────────────────────── */
+.cursor-glow {
+    position: fixed;
+    top: 0; left: 0;
+    width: 480px;
+    height: 480px;
+    margin-left: -240px;
+    margin-top: -240px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(168, 85, 247, 0.10) 0%,
+        rgba(91, 111, 255, 0.06) 40%,
+        transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+    mix-blend-mode: screen;
+}
+
+/* ── Ripple ───────────────────────────────────────── */
+.btn        { position: relative; overflow: hidden; }
+.btn-cta    { position: relative; overflow: hidden; }
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    transform: scale(0);
+    animation: rippleOut 0.70s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    pointer-events: none;
+}
+
+@keyframes rippleOut {
+    to { transform: scale(4); opacity: 0; }
+}
+
+/* ── Scroll-Reveal base state ─────────────────────── */
+.animate-up {
+    opacity: 0;
+    transform: translateY(36px);
+    transition:
+        opacity  0.72s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Hero word-by-word reveal ─────────────────────── */
+.word-reveal {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(28px);
+    animation: wordUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes wordUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Step slide transitions ───────────────────────── */
+.step-exit-left {
+    animation: exitLeft 0.28s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+}
+.step-exit-right {
+    animation: exitRight 0.28s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+}
+.step-enter-right {
+    animation: enterRight 0.40s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+.step-enter-left {
+    animation: enterLeft 0.40s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes exitLeft  { to { opacity: 0; transform: translateX(-28px); } }
+@keyframes exitRight { to { opacity: 0; transform: translateX(28px);  } }
+@keyframes enterRight { from { opacity: 0; transform: translateX(32px);  } to { opacity: 1; transform: translateX(0); } }
+@keyframes enterLeft  { from { opacity: 0; transform: translateX(-32px); } to { opacity: 1; transform: translateX(0); } }
+
+/* ── Scroll progress bar (top edge) ──────────────── */
+.scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, #5B6FFF, #A855F7, #EC4899);
+    z-index: 9999;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.60);
+}
+
+/* ── Respect reduced-motion preference ───────────── */
+@media (prefers-reduced-motion: reduce) {
+    .star, .word-reveal, .animate-up,
+    .step-exit-left, .step-exit-right,
+    .step-enter-right, .step-enter-left,
+    .cursor-glow { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+}
+
 ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
