@@ -364,19 +364,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const efficiency = tib > 0 ? Math.round((results.duration / tib) * 100) : 0;
         if (efficiencyEl) efficiencyEl.textContent = efficiency;
 
-        // ---- Animate Score Ring ----
+        // ---- Animate Score Ring (horseshoe arc: 300° fill, 60° gap at bottom) ----
         const scoreRing = document.getElementById('scoreRing');
-        const circumference = 2 * Math.PI * 52; // r=52
-        
+        const arcLength = 2 * Math.PI * 52 * (300 / 360); // 272.27px — visible arc
+        const gapLength = 2 * Math.PI * 52 * (60  / 360); // 54.45px  — gap at bottom
+
         if (scoreRing) {
-            // Start empty
-            scoreRing.style.strokeDasharray = circumference;
-            scoreRing.style.strokeDashoffset = circumference;
-            
-            // Animate to score percentage
+            // Fix dasharray to the horseshoe arc so the gap is always visible
+            scoreRing.style.strokeDasharray = `${arcLength} ${gapLength}`;
+            // Start fully "empty" (offset equals full arc length → nothing drawn)
+            scoreRing.style.strokeDashoffset = arcLength;
+
+            // Animate fill to the score percentage of the arc
             requestAnimationFrame(() => {
                 setTimeout(() => {
-                    const offset = circumference - (circumference * results.score / 100);
+                    const offset = arcLength - (arcLength * results.score / 100);
                     scoreRing.style.strokeDashoffset = offset;
                 }, 100);
             });
