@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             napDuration: 'short',
             weekendShift: 'same',
             weekendBedtime: 'same',
-            stressLevel: 5,
+            stressLevel: 50,
             physicalActivity: 30,
             bmiCategory: 'Normal',
             sleepLatency: 15,
@@ -114,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // New Fields
     const stressSlider = document.getElementById('stressLevel');
-    const stressValue = document.getElementById('stressValue');
     const physicalActivityInput = document.getElementById('physicalActivity');
     const bmiCategorySelect = document.getElementById('bmiCategory');
     const sleepLatencyInput = document.getElementById('sleepLatency');
@@ -191,12 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (stressSlider) {
         stressSlider.addEventListener('input', (e) => {
-            const val = parseInt(e.target.value, 10);
-            stressValue.textContent = val;
-            state.data.stressLevel = val;
-            syncSliderLabel(stressSlider, stressValue);
+            state.data.stressLevel = parseInt(e.target.value, 10);
         });
-        syncSliderLabel(stressSlider, stressValue);
     }
 
     // 2. Navigation Buttons

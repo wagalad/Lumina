@@ -365,10 +365,15 @@
                 <div class="input-group">
                     <label for="stressLevel">
                         <span class="label-icon">😰</span>
-                        Daily Stress Level (1-10)
+                        Daily Stress Level
                     </label>
-                    <input type="range" id="stressLevel" min="1" max="10" value="5" class="styled-slider">
-                    <div class="slider-value" id="stressValue" style="font-size:1.5rem;">5</div>
+                    <div class="slider-container">
+                        <input type="range" id="stressLevel" min="0" max="100" step="1" value="50" class="styled-slider">
+                        <div class="slider-labels">
+                            <span>Low</span>
+                            <span>High</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="input-group">
                     <label for="physicalActivity">

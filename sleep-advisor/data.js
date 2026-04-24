@@ -78,14 +78,14 @@ const sleepAdviceDB = [
     // ---- Stress (Kaggle Dataset) ----
     {
         id: 'stress_moderate',
-        condition: (data) => data.stressLevel >= 4 && data.stressLevel < 7,
+        condition: (data) => data.stressLevel >= 40 && data.stressLevel < 70,
         type: 'info',
         title: 'Moderate Stress Measurably Reduces Sleep Duration (Kaggle Dataset)',
         text: (data) => 'The Kaggle Sleep Health and Lifestyle dataset shows a clear dose-response relationship between daily stress and sleep metrics. Even moderate stress (4–6/10) is associated with meaningfully shorter sleep durations and lower quality scores compared to low-stress peers — and stress was found to have a stronger predictive effect on sleep than BMI or physical activity alone.'
     },
     {
         id: 'kaggle_stress',
-        condition: (data) => data.stressLevel >= 7,
+        condition: (data) => data.stressLevel >= 70,
         type: 'warning',
         title: 'High Stress Is the Strongest Predictor of Poor Sleep (Kaggle Dataset)',
         text: (data) => 'In the Kaggle Sleep Health and Lifestyle dataset, high daily stress (7+/10) emerged as the single strongest predictor of poor sleep quality scores — outweighing BMI, age, and physical activity. High-stress participants consistently showed reduced sleep duration, lower quality ratings, and higher rates of sleep disorders across the dataset.'
@@ -154,7 +154,7 @@ const sleepAdviceDB = [
     // ---- HSP / BDSP ----
     {
         id: 'hsp_neuro',
-        condition: (data) => data.quality <= 40 && data.stressLevel >= 7,
+        condition: (data) => data.quality <= 40 && data.stressLevel >= 70,
         type: 'warning',
         title: 'Accelerated Brain Aging Risk (Human Sleep Project / BDSP)',
         text: (data) => 'Research from the Human Sleep Project (26,200+ PSG studies, Massachusetts General Hospital) found that chronic poor sleep quality combined with high stress is associated with accelerated EEG-derived "brain age" and elevated risk of cerebrovascular disease and Alzheimer\'s. The HSP identified this combination as one of the highest-risk sleep profiles in its dataset.'
@@ -191,7 +191,7 @@ const sleepAdviceDB = [
     },
     {
         id: 'sleepfounder_cardio',
-        condition: (data) => data.quality <= 50 && data.stressLevel >= 6 && data.physicalActivity < 30,
+        condition: (data) => data.quality <= 50 && data.stressLevel >= 60 && data.physicalActivity < 30,
         type: 'warning',
         title: 'Cardiorespiratory Disease Risk Cluster (SleepFounder)',
         text: (data) => 'The SleepFounder model showed that cardiorespiratory signals during sleep predict heart failure (AUROC 0.88), high cholesterol (0.83), GERD (0.89), and coronary heart disease (0.81). Your combination of low sleep quality, elevated stress, and low physical activity matches the dataset\'s elevated-risk cluster. Improving physical activity has the strongest single-factor impact in this profile.'
@@ -228,7 +228,7 @@ const sleepAdviceDB = [
     },
     {
         id: 'age_middle_age',
-        condition: (data) => data.ageGroup === 'middle_age' && data.stressLevel >= 6,
+        condition: (data) => data.ageGroup === 'middle_age' && data.stressLevel >= 60,
         type: 'warning',
         title: 'Midlife Stress Compounds Hormonal Sleep Disruption (Kaggle / NSF)',
         text: (data) => 'The Kaggle Sleep Health dataset found adults 46–64 with stress ≥ 6/10 showed the steepest sleep quality decline of any age-stress combination in the dataset — a pattern the NSF attributes to career-peak stress intersecting with hormonal changes that independently reduce deep sleep. CBT-I (Cognitive Behavioral Therapy for Insomnia) is the NSF\'s top-rated intervention for this profile, outperforming sleep medication in long-term outcomes.'
@@ -379,9 +379,9 @@ function analyzeSleepData(userData) {
     deductions += userData.habits.length * 3;
 
     // Stress: graduated scale
-    if (userData.stressLevel >= 8) deductions += 8;
-    else if (userData.stressLevel >= 6) deductions += 4;
-    else if (userData.stressLevel >= 4) deductions += 1;
+    if (userData.stressLevel >= 80) deductions += 8;
+    else if (userData.stressLevel >= 60) deductions += 4;
+    else if (userData.stressLevel >= 40) deductions += 1;
 
     // Low physical activity
     if (userData.physicalActivity < 15) deductions += 4;
