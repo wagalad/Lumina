@@ -523,33 +523,44 @@ function analyzeSleepData(userData) {
         }
     ];
 
-    // Filter supplementary advice by score range, and avoid duplicate titles
-    const existingTitles = new Set(advice.map(a => a.title));
     const roundedScore = Math.round(score);
-    
+
+    // Prioritise condition-based tips: warnings first, then info/success
+    const conditionAdvice = [
+        ...advice.filter(a => a.type === 'warning'),
+        ...advice.filter(a => a.type !== 'warning'),
+    ];
+
+    // Collect applicable supplementary tips, skipping duplicates
+    const existingTitles = new Set(conditionAdvice.map(a => a.title));
+    const supplementaryFiltered = [];
     supplementaryAdvice.forEach(tip => {
         if (roundedScore >= tip.minScore && roundedScore <= tip.maxScore && !existingTitles.has(tip.title)) {
-            advice.push({
-                type: tip.type,
-                title: tip.title,
-                text: tip.text
-            });
+            supplementaryFiltered.push({ type: tip.type, title: tip.title, text: tip.text });
             existingTitles.add(tip.title);
         }
     });
 
-    // If no specific advice at all, add a generic positive one
-    if (advice.length === 0) {
-        advice.push({
+    // Score-graduated cap: lower scores surface more tips
+    const cap = roundedScore <= 30 ? 10
+              : roundedScore <= 50 ? 8
+              : roundedScore <= 70 ? 6
+              : 4;
+
+    const finalAdvice = [...conditionAdvice, ...supplementaryFiltered].slice(0, cap);
+
+    // Fallback for a near-perfect profile with no triggered tips
+    if (finalAdvice.length === 0) {
+        finalAdvice.push({
             type: 'success',
-            title: 'Excellent Routine',
-            text: 'Your sleep habits are perfectly optimized. Keep maintaining this consistent, healthy routine!'
+            title: 'Optimised Sleep Profile (Kaggle / NSF)',
+            text: 'Your answers match the highest-performing profiles in the Kaggle Sleep Health dataset and align with all NSF sleep hygiene benchmarks. Maintain your schedule consistency, activity level, and sleep environment — these are the three factors the data most strongly links to sustained quality.'
         });
     }
 
     return {
-        score: Math.round(score),
-        advice,
+        score: roundedScore,
+        advice: finalAdvice,
         duration: enrichedData.durationHours
     };
 }
