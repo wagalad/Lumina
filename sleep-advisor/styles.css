@@ -1593,8 +1593,9 @@ select.styled-input { cursor: pointer; }
 .site-footer strong { color: var(--text-secondary); font-weight: 600; }
 
 .footer-emoji {
-    opacity: 0.55;
-    filter: brightness(1.4);
+    font-size: 1.15rem;
+    opacity: 0.8;
+    vertical-align: middle;
     font-style: normal;
 }
 
